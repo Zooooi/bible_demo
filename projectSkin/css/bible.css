@@ -1,0 +1,7 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+
+
+.bibleItem .chapter{fontSize:12px;}
+.bibleItem .verse{fontSize:12px;}
+.bibleItem .content{fontSize:16px;paddingBottom:20px;}
