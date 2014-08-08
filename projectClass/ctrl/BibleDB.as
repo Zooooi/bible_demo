@@ -86,15 +86,14 @@ package projectClass.ctrl
 			stmt = new SQLStatement();
 			stmt.sqlConnection = con; 
 			stmt.text = "select * from bible limit :page,:total ";
-			stmt.parameters[":page"]=nPage;
-			stmt.parameters[":total"]=cLength;
+			stmt.parameters[":page"] = nPage;
+			stmt.parameters[":total"] = cLength;
 			stmt.execute(-1,responder);  
 		}
 		
 		
 		protected function resultHandler(result:SQLResult):void
 		{
-			trace(currentTable);
 			switch(currentTable)
 			{
 				case "volumes":
@@ -117,8 +116,8 @@ package projectClass.ctrl
 		
 		public function next():void
 		{
-			nPage ++;
-			stmt.parameters[":page"]=nPage;
+			nPage += cLength;
+			stmt.parameters[":page"] = nPage;
 			stmt.execute(-1,responder);  
 		}
 		

@@ -7,7 +7,7 @@
 		<![CDATA[
 			import mx.events.FlexEvent;
 			
-			import projectComponents.bible.ctrls.ActBibleReader;
+			import projectComponents.bible.act.ActBibleReader;
 			import projectClass.ctrl.Init; 
 			
 			protected function onReaderInit(event:FlexEvent):void

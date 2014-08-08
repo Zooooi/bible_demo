@@ -11,6 +11,11 @@ package projectClass.vo.o
 		[Bindable]public var verse:uint;
 		[Bindable]public var volume:uint
 		
+		
+		[Bindable]public var volumeName:String
+		[Bindable]public var contentTitle:String
+		
+		
 		public function BibleOB()
 		{
 			super();
