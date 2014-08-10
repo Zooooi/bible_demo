@@ -3,5 +3,5 @@
 
 .bibleItem .chapter{fontSize:12px;color:#ff0000;}
 .bibleItem .verse{fontSize:12px;color:#0000ff;}
-.bibleItem .content{fontSize:16px;paddingBottom:2px;}
-.bibleItem .title{fontSize:12px;paddingBottom:0px;color:#999999;textAlign:right;}
+.bibleItem .content{fontSize:16px;}
+.bibleItem .title{fontSize:12px;color:#999999;textAlign:right;}

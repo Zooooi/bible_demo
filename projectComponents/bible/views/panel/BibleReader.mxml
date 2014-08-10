@@ -3,5 +3,6 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="JsF.components.*"
 		 >
-	<components:JScroller id="$Scroller" width="100%" height="100%"/>
+	
+	<components:JScrollerV id="$Scroller" width="100%" height="100%"/>
 </s:Group>

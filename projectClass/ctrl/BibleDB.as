@@ -13,15 +13,23 @@ package projectClass.ctrl
 	
 	import projectClass.vo.v.FilesVO;
 	
+	
+	[Event(name="NEXT", type="JsC.events.JEvent")]
+	[Event(name="PREV", type="JsC.events.JEvent")]
+	
+	[Event(name="ONTOP", type="JsC.events.JEvent")]
+	[Event(name="ONBOTTOM", type="JsC.events.JEvent")]
 	public class BibleDB extends Model
 	{
+		
+		public const $total:uint = 100;
+		public const $length:uint = $total / 2
 		
 		private var con:SQLConnection;
 		private var stmt:SQLStatement;
 		private var responder:Responder
 		
 		private const aBibleTable:Vector.<String> = Vector.<String>(["volumes","bible"]);
-		private const cLength:uint = 70;
 		
 		private var currentTable:String
 		private var nCounter:uint
@@ -30,6 +38,9 @@ package projectClass.ctrl
 		
 		private var aVolumes:Vector.<Object>
 		private var aBible:Vector.<Object>
+		
+		private var bNext:Boolean;
+		private var bPrev:Boolean;
 		
 		public function BibleDB()
 		{
@@ -80,15 +91,20 @@ package projectClass.ctrl
 			stmt.execute(-1,responder);  
 		}
 		
-		
+		/**
+		 * 
+		 * 第一次load bible
+		 */		
 		protected function queryBible():void
 		{
 			stmt = new SQLStatement();
 			stmt.sqlConnection = con; 
 			stmt.text = "select * from bible limit :page,:total ";
 			stmt.parameters[":page"] = nPage;
-			stmt.parameters[":total"] = cLength;
+			stmt.parameters[":total"] = $total;
+			nPage = $length
 			stmt.execute(-1,responder);  
+			
 		}
 		
 		
@@ -98,12 +114,21 @@ package projectClass.ctrl
 			{
 				case "volumes":
 					aVolumes = Vector.<Object>(result.data)
+					
 					setTableName()
 					queryBible()
 					break;
 				case "bible":
 					aBible = Vector.<Object>(result.data)
-					dispatchEvent(new JEvent(JEvent.COMPLETE));
+					if (bNext){
+						bNext = false;
+						dispatchEvent(new JEvent(JEvent.NEXT))
+					}else if(bPrev){
+						bPrev = false
+						dispatchEvent(new JEvent(JEvent.PREV))
+					}else{
+						dispatchEvent(new JEvent(JEvent.COMPLETE));
+					}
 					break;
 			}
 		}
@@ -116,13 +141,23 @@ package projectClass.ctrl
 		
 		public function next():void
 		{
-			nPage += cLength;
+			nPage += $length;
 			stmt.parameters[":page"] = nPage;
+			stmt.parameters[":total"] = $length;
 			stmt.execute(-1,responder);  
+			bNext = true;
 		}
 		
 		public function prev():void
 		{
+			if (nPage>0)
+			{
+				nPage -= $length;
+				stmt.parameters[":page"] = nPage;
+				stmt.parameters[":total"] = $length;
+				stmt.execute(-1,responder);
+				bPrev = true
+			}
 			
 		}
 		
