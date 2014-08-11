@@ -17,8 +17,6 @@ package projectClass.ctrl
 	[Event(name="NEXT", type="JsC.events.JEvent")]
 	[Event(name="PREV", type="JsC.events.JEvent")]
 	
-	[Event(name="ONTOP", type="JsC.events.JEvent")]
-	[Event(name="ONBOTTOM", type="JsC.events.JEvent")]
 	public class BibleDB extends Model
 	{
 		
@@ -42,6 +40,8 @@ package projectClass.ctrl
 		private var bNext:Boolean;
 		private var bPrev:Boolean;
 		
+		private const SQL_BIBLE:String = "select * from bible limit :page,:total ";
+		
 		public function BibleDB()
 		{
 			
@@ -50,10 +50,10 @@ package projectClass.ctrl
 		
 		public function load():void
 		{
-			responder= new Responder(resultHandler, errorHandler);
+			responder= new Responder(result_init, errorHandler);
 			var filedb:File = new File(FilesVO.file_bible);
 			con = new SQLConnection
-			con.addEventListener(SQLEvent.OPEN,onSQLEvent)
+			con.addEventListener(SQLEvent.OPEN,onLoadSQLComplete)
 			con.openAsync(filedb);
 		}
 		
@@ -69,7 +69,8 @@ package projectClass.ctrl
 			return aBible
 		}
 		
-		protected function onSQLEvent(event:SQLEvent):void
+		
+		protected function onLoadSQLComplete(event:SQLEvent):void
 		{
 			setTableName()
 			queryVolume()
@@ -84,7 +85,6 @@ package projectClass.ctrl
 		
 		protected function queryVolume():void
 		{
-			
 			stmt = new SQLStatement();
 			stmt.sqlConnection = con; 
 			stmt.text = "select * from volumes ";
@@ -99,39 +99,42 @@ package projectClass.ctrl
 		{
 			stmt = new SQLStatement();
 			stmt.sqlConnection = con; 
-			stmt.text = "select * from bible limit :page,:total ";
+			stmt.text = SQL_BIBLE
 			stmt.parameters[":page"] = nPage;
 			stmt.parameters[":total"] = $total;
-			nPage = $length
 			stmt.execute(-1,responder);  
-			
+			nPage = $length
 		}
 		
 		
-		protected function resultHandler(result:SQLResult):void
+		protected function result_init(result:SQLResult):void
 		{
 			switch(currentTable)
 			{
 				case "volumes":
 					aVolumes = Vector.<Object>(result.data)
-					
 					setTableName()
 					queryBible()
 					break;
 				case "bible":
 					aBible = Vector.<Object>(result.data)
-					if (bNext){
-						bNext = false;
-						dispatchEvent(new JEvent(JEvent.NEXT))
-					}else if(bPrev){
-						bPrev = false
-						dispatchEvent(new JEvent(JEvent.PREV))
-					}else{
-						dispatchEvent(new JEvent(JEvent.COMPLETE));
-					}
+					dispatchEvent(new JEvent(JEvent.COMPLETE));
 					break;
 			}
 		}
+		
+		protected function result_bible(result:SQLResult):void
+		{
+			aBible = Vector.<Object>(result.data)
+			if (bNext){
+				bNext = false;
+				dispatchEvent(new JEvent(JEvent.NEXT))
+			}else if(bPrev){
+				bPrev = false
+				dispatchEvent(new JEvent(JEvent.PREV))
+			}
+		}
+		
 		
 		protected function errorHandler(error:SQLError):void
 		{
@@ -141,24 +144,31 @@ package projectClass.ctrl
 		
 		public function next():void
 		{
-			nPage += $length;
-			stmt.parameters[":page"] = nPage;
-			stmt.parameters[":total"] = $length;
-			stmt.execute(-1,responder);  
 			bNext = true;
+			nPage += $length;
+			bibleGetPage()
 		}
 		
 		public function prev():void
 		{
 			if (nPage>0)
 			{
-				nPage -= $length;
-				stmt.parameters[":page"] = nPage;
-				stmt.parameters[":total"] = $length;
-				stmt.execute(-1,responder);
 				bPrev = true
+				nPage -= $length;
+				bibleGetPage()
 			}
-			
+		}
+		
+		
+		private function bibleGetPage():void
+		{
+			responder= new Responder(result_bible, errorHandler);
+			stmt = new SQLStatement();
+			stmt.sqlConnection = con; 
+			stmt.text = SQL_BIBLE
+			stmt.parameters[":page"] = nPage;
+			stmt.parameters[":total"] = $length;
+			stmt.execute(-1,responder); 
 		}
 		
 	}

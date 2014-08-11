@@ -4,13 +4,15 @@ package projectComponents.bible.ctrl
 	
 	import mx.events.FlexEvent;
 	
+	import spark.components.Group;
 	import spark.components.Scroller;
 	import spark.components.VGroup;
 	
 	import JsC.events.JEvent;
 	import JsC.mvc.Controller;
 	
-	import JsF.components.JScrollerActBase;
+	import JsF.components.act.JScrollerActBase;
+	import JsF.components.act.JScrollerActV2;
 	
 	import projectClass.ctrl.BibleDB;
 	
@@ -32,7 +34,7 @@ package projectComponents.bible.ctrl
 		private var nHeight:Number
 		
 		private var bNext:Boolean = true;
-		public function CreateBible(_data:BibleDB,_ctrl:JScrollerActBase)
+		public function CreateBible(_ctrl:JScrollerActV2,_data:BibleDB)
 		{
 			sql = _data
 			nLength = sql.$length
@@ -40,10 +42,10 @@ package projectComponents.bible.ctrl
 			
 			scrollerCtrl = _ctrl;
 			scrollerCtrl.$slider = 1;
-			gr = scrollerCtrl._getContent()
+			gr = scrollerCtrl._getContentV()
 			scroller = scrollerCtrl._getScroller()
 			
-			currModel = CreateBibleModel.getInstance()
+			currModel = new CreateBibleModel
 			_model = currModel
 		}
 		
@@ -111,7 +113,7 @@ package projectComponents.bible.ctrl
 			nCount = 0
 			for (var i:int = 0; i <nLength; i++) 
 			{
-				gr.removeElementAt(gr.numElements-1);
+				gr.removeElementAt(gr.numElements-1);gr.numElements
 			}
 		}
 		
@@ -136,9 +138,6 @@ package projectComponents.bible.ctrl
 					nHeight += gr.gap + item.height;
 					if (nCount == nLength) 
 					{
-						nHeight -= gr.gap
-						/*scroller.verticalScrollBar.value -= nHeight;
-						scroller.verticalScrollBar.viewport.verticalScrollPosition -= nHeight*/
 						if (bNext)
 						{
 							scroller.verticalScrollBar.value -= nHeight;
