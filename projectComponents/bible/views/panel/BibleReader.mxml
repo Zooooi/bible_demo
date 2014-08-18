@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="JsF.components.*"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="JsF.components.*" xmlns:symbol="projectComponents.bible.views.symbol.*"
 		 >
-	<components:JScrollerH id="$menu" width="100%" height="20"/>
-	<components:JScrollerV id="$scroller" width="100%" top="22" bottom="0"/>
+	
+	<symbol:JScrollerH2 id="$menu" width="100%" height="30">
+		
+	</symbol:JScrollerH2>
+	<components:JScrollerV id="$scroller" width="100%" top="32" bottom="0"/>
 </s:Group>

@@ -1,15 +1,11 @@
 package projectClass.ctrl
 {
-	import flash.data.SQLConnection;
 	import flash.data.SQLResult;
-	import flash.data.SQLStatement;
-	import flash.errors.SQLError;
-	import flash.events.SQLEvent;
-	import flash.filesystem.File;
 	import flash.net.Responder;
 	
+	import JsA.data.SQLite;
+	
 	import JsC.events.JEvent;
-	import JsC.mvc.Model;
 	
 	import projectClass.vo.v.FilesVO;
 	
@@ -17,21 +13,17 @@ package projectClass.ctrl
 	[Event(name="NEXT", type="JsC.events.JEvent")]
 	[Event(name="PREV", type="JsC.events.JEvent")]
 	
-	public class BibleDB extends Model
+	public class BibleDB extends SQLite
 	{
 		
-		public const $total:uint = 100;
+		public const $total:uint = 150;
 		public const $length:uint = $total / 2
 		
-		private var con:SQLConnection;
-		private var stmt:SQLStatement;
-		private var responder:Responder
 		
 		private const aBibleTable:Vector.<String> = Vector.<String>(["volumes","bible"]);
 		
 		private var currentTable:String
 		private var nCounter:uint
-		private var nPage:uint
 		
 		
 		private var aVolumes:Vector.<Object>
@@ -40,21 +32,21 @@ package projectClass.ctrl
 		private var bNext:Boolean;
 		private var bPrev:Boolean;
 		
-		private const SQL_BIBLE:String = "select * from bible limit :page,:total ";
+		
 		
 		public function BibleDB()
 		{
-			
+			sql_text = "select * from bible limit :page,:total ";
 		}
 		
 		
 		public function load():void
 		{
 			responder= new Responder(result_init, errorHandler);
-			var filedb:File = new File(FilesVO.file_bible);
-			con = new SQLConnection
-			con.addEventListener(SQLEvent.OPEN,onLoadSQLComplete)
-			con.openAsync(filedb);
+			open(FilesVO.file_bible,function():void{
+				setTableName()
+				queryVolume()
+			})
 		}
 		
 		
@@ -70,11 +62,7 @@ package projectClass.ctrl
 		}
 		
 		
-		protected function onLoadSQLComplete(event:SQLEvent):void
-		{
-			setTableName()
-			queryVolume()
-		}
+		
 		
 		
 		private function setTableName():void
@@ -85,10 +73,7 @@ package projectClass.ctrl
 		
 		protected function queryVolume():void
 		{
-			stmt = new SQLStatement();
-			stmt.sqlConnection = con; 
-			stmt.text = "select * from volumes ";
-			stmt.execute(-1,responder);  
+			query("select * from volumes ",responder)
 		}
 		
 		/**
@@ -97,12 +82,7 @@ package projectClass.ctrl
 		 */		
 		protected function queryBible():void
 		{
-			stmt = new SQLStatement();
-			stmt.sqlConnection = con; 
-			stmt.text = SQL_BIBLE
-			stmt.parameters[":page"] = nPage;
-			stmt.parameters[":total"] = $total;
-			stmt.execute(-1,responder);  
+			query(sql_text,responder,nPage,$total)
 			nPage = $length
 		}
 		
@@ -123,7 +103,7 @@ package projectClass.ctrl
 			}
 		}
 		
-		protected function result_bible(result:SQLResult):void
+		override protected function onResult(result:SQLResult):void
 		{
 			aBible = Vector.<Object>(result.data)
 			if (bNext){
@@ -136,41 +116,30 @@ package projectClass.ctrl
 		}
 		
 		
-		protected function errorHandler(error:SQLError):void
-		{
-			trace(error.message);
-			trace(error.details);
-		}
-		
 		public function next():void
 		{
 			bNext = true;
 			nPage += $length;
-			bibleGetPage()
+			nLength = $length
+			getCurrentResult()
 		}
 		
 		public function prev():void
 		{
-			if (nPage>0)
+			bPrev = true
+			if (nPage==$total)
 			{
-				bPrev = true
-				nPage -= $length;
-				bibleGetPage()
+				nPage = 0;
+				nLength = $length
+				getCurrentResult()
+				nPage += $length
+			}else if(nPage>$length){
+				nPage -= $total;
+				nLength = $length
+				getCurrentResult()
+				nPage += $length
 			}
 		}
-		
-		
-		private function bibleGetPage():void
-		{
-			responder= new Responder(result_bible, errorHandler);
-			stmt = new SQLStatement();
-			stmt.sqlConnection = con; 
-			stmt.text = SQL_BIBLE
-			stmt.parameters[":page"] = nPage;
-			stmt.parameters[":total"] = $length;
-			stmt.execute(-1,responder); 
-		}
-		
 	}
 }
 

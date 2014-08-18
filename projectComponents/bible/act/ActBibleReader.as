@@ -5,13 +5,12 @@ package projectComponents.bible.act
 	import JsC.events.JEvent;
 	import JsC.mvc.ActionObject;
 	
-	import JsF.components.act.JScrollerActH2;
-	import JsF.components.act.JScrollerActV2;
+	import JsF.components.act.JScrollerActV;
 	
 	import projectClass.ctrl.BibleDB;
 	
-	import projectComponents.bible.ctrl.CreateBible;
-	import projectComponents.bible.ctrl.CreateChapter;
+	import projectComponents.bible.ctrl.CreateBible_ChapterMenu;
+	import projectComponents.bible.ctrl.CreateBible_VerseList;
 	import projectComponents.bible.views.panel.BibleReader;
 	
 	public class ActBibleReader extends ActionObject
@@ -19,9 +18,9 @@ package projectComponents.bible.act
 		
 		private var view:BibleReader;
 		private var sql:BibleDB
-		private var createBible:CreateBible
-		private var createChapter:CreateChapter
-		private var scrollerCtrl:JScrollerActV2
+		private var createBible:CreateBible_VerseList
+		private var createMenu:CreateBible_ChapterMenu
+		private var scrollerCtrl:JScrollerActV
 		/**
 		 * 
 		 * ActBibleReader
@@ -47,16 +46,14 @@ package projectComponents.bible.act
 					sql.load()
 					
 					/*Bible.....................................................................................................*/
-					scrollerCtrl = new JScrollerActV2(view.$scroller)
+					scrollerCtrl = new JScrollerActV(view.$scroller)
 					scrollerCtrl.addEventListener(JEvent.ONSTART,onScrollEvent)
 					scrollerCtrl.addEventListener(JEvent.ONEND,onScrollEvent)
-					createBible = new CreateBible(scrollerCtrl,sql)
+					createBible = new CreateBible_VerseList(scrollerCtrl,sql)
 					
 					/*Menu.....................................................................................................*/					
-					var menuCtrl:JScrollerActH2 = new JScrollerActH2(view.$menu);
-					menuCtrl.addEventListener(JEvent.ONSTART,onMenuScroller)
-					menuCtrl.addEventListener(JEvent.ONEND,onMenuScroller)
-					createChapter = new CreateChapter(menuCtrl,sql)
+					var menuCtrl:ActMenuScorller = new ActMenuScorller(view.$menu);
+					createMenu = new CreateBible_ChapterMenu(menuCtrl,sql)
 					break;
 				
 			}
@@ -72,17 +69,16 @@ package projectComponents.bible.act
 			{
 				case JEvent.COMPLETE:
 					createBible.init();
+					createMenu.init()
 					sql.removeEventListener(JEvent.COMPLETE,arguments.callee);
 					break
 				
 				case JEvent.NEXT:
 					createBible.next()
-					scrollerCtrl.dispatchEvent(new JEvent(JEvent.READY))
 					break
 				
 				case JEvent.PREV:
 					createBible.prev();
-					scrollerCtrl.dispatchEvent(new JEvent(JEvent.READY))
 					break
 			}
 			
@@ -103,10 +99,7 @@ package projectComponents.bible.act
 		}		
 		
 		
-		protected function onMenuScroller(event:JEvent):void
-		{
-			
-		}	
+	
 		
 	}
 }

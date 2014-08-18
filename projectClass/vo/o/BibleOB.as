@@ -12,6 +12,9 @@ package projectClass.vo.o
 		[Bindable]public var volume:uint
 		
 		
+		[Bindable]public var short_name:String
+		[Bindable]public var full_name:String
+		
 		[Bindable]public var volumeName:String
 		[Bindable]public var contentTitle:String
 		

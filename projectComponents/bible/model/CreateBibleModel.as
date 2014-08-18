@@ -27,7 +27,7 @@ package projectComponents.bible.model
 		}
 		
 		
-		public function getData(_data:BibleDB,_index:uint):BibleOB
+		public function getBibleData(_data:BibleDB,_index:uint):BibleOB
 		{
 			var _l:BibleOB = new BibleOB
 			_l.fill(_data.getBible()[_index]);
@@ -35,5 +35,13 @@ package projectComponents.bible.model
 			_l.contentTitle = _l.volumeName + _l.chapter + ":" + _l.verse;
 			return _l;
 		}
+		
+		public function getVolumesData(_data:BibleDB,_index:uint):BibleOB
+		{
+			var _l:BibleOB = new BibleOB
+			_l.fill(_data.getVoumes()[_index]);
+			return _l;
+		}
+		
 	}
 }
