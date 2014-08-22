@@ -16,7 +16,7 @@ package projectClass.ctrl
 	public class BibleDB extends SQLite
 	{
 		
-		public const $total:uint = 150;
+		public const $total:uint = 50;
 		public const $length:uint = $total / 2
 		
 		

@@ -2,10 +2,21 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="JsF.components.*" xmlns:symbol="projectComponents.bible.views.symbol.*"
+		 top="0" bottom="0" left="0" right="0"
 		 >
 	
-	<symbol:JScrollerH2 id="$menu" width="100%" height="30">
+	
+	<s:Group top="0" bottom="0" width="100%">
+		<s:Group id="chapter" height="40" left="0" right="0">
+			
+			<s:BitmapImage source="@Embed('assets/imgs/bible/chapter/chapter_menu_clip1.png')" top="0" left="0" right="5" height="40"/>
+			<s:BitmapImage source="@Embed('assets/imgs/bible/chapter/chapter_menu_clip2.png')" smooth="true"  right="0" height="100%" width="5"/>
+			
+			<symbol:JScrollerH2 id="$menu" width="100%" height="100%" left="0" verticalScrollPosition="0" />
+			<!--<s:BitmapImage source="@Embed('assets/imgs/bible/chapter/volume_name.png')" smooth="true"  left="0" height="100%" width="100" top="-1"/>-->
+		</s:Group>
 		
-	</symbol:JScrollerH2>
-	<components:JScrollerV id="$scroller" width="100%" top="32" bottom="0"/>
+		<components:JScrollerV id="$scroller" width="100%" top="40" bottom="0"/>
+	</s:Group>
+	
 </s:Group>

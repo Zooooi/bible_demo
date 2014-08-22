@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		>
+	
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("spark.components.RadioButton")]
+	</fx:Metadata>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="disabledAndSelected" />
+		<s:State name="downAndSelected" />
+		<s:State name="overAndSelected" />
+		<s:State name="upAndSelected" />
+		<s:State name="disabled" />
+		<s:State name="down" />
+		<s:State name="over" />
+		<s:State name="up" />
+	</s:states>
+	
+	<!-- SkinParts
+	name=iconDisplay, type=spark.primitives.BitmapImage, required=false
+	name=labelDisplay, type=spark.core.IDisplayText, required=false
+	-->
+	<s:BitmapImage includeIn="up, overAndSelected, down, disabled" source="@Embed('assets/imgs/bible/chapter/volume_number_1.png')" smooth="true" height="100%" width="100%"/>
+	<s:BitmapImage includeIn="upAndSelected, over, downAndSelected,  disabledAndSelected" source="@Embed('assets/imgs/bible/chapter/volume_number_2.png')" smooth="true"  height="100%" width="100%"/>
+	
+	<s:Label id="labelDisplay"
+				textAlign="center"
+				verticalAlign="middle"
+				left="0" right="0" top="0" bottom="0" verticalCenter="0"  styleName="text1" styleName.upAndSelected="text2"/>
+</s:Skin>

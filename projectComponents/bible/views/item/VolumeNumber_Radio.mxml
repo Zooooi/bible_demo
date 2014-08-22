@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:RadioButton xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" styleName="volumeNumber"
+			   skinClass.old_testament="projectSkin.skin.Bible_Volume_Radio_old" 
+			   skinClass.new_testament="projectSkin.skin.Bible_Volume_Radio_new" 
+			   width="25" height="25"
+			   >
+	<fx:Style source="projectSkin/css/bible.css"/>
+	<s:states>
+		<s:State name="old_testament" />
+		<s:State name="new_testament" />
+		<s:State name="none" />
+	</s:states>
+</s:RadioButton>

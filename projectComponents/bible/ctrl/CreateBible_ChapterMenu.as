@@ -1,12 +1,9 @@
 package projectComponents.bible.ctrl
 {
-	import flash.events.Event;
-	import flash.utils.setTimeout;
 	
 	import mx.core.UIComponent;
 	
 	import spark.components.HGroup;
-	import spark.components.Label;
 	
 	import JsC.events.JEvent;
 	
@@ -15,9 +12,11 @@ package projectComponents.bible.ctrl
 	import projectClass.ctrl.BibleDB;
 	import projectClass.vo.o.BibleOB;
 	
-	public class CreateBible_ChapterMenu extends CreateBibleBase
+	import projectComponents.bible.views.item.VolumeLabel;
+	import projectComponents.bible.views.item.VolumeNumber_Radio;
+	
+	public class CreateBible_ChapterMenu extends CreateBible_Base
 	{
-		
 		private var gr:HGroup
 		private var vMenu:Vector.<BibleOB>
 		private var nMenu:uint
@@ -25,11 +24,10 @@ package projectComponents.bible.ctrl
 		public function CreateBible_ChapterMenu(_ctrl:JScrollerActBase,_data:BibleDB)
 		{
 			super(_ctrl,_data);
+			
 			cTotal = 70;
 			cLength = cTotal /2
 			gr = scrollerCtrl._getContentH()
-			grV = gr
-			
 			initCtrl()
 		}
 		
@@ -43,7 +41,6 @@ package projectComponents.bible.ctrl
 		
 		private function initValue():void
 		{
-			
 			nMenu = cTotal
 			var vData:Vector.<Object> = sql.getVoumes()
 			vMenu = new Vector.<BibleOB>
@@ -51,7 +48,8 @@ package projectComponents.bible.ctrl
 			{
 				var _vo:BibleOB = currModel.getVolumesData(sql,i);
 				var _itemVo:BibleOB = new BibleOB
-				_itemVo.contentTitle = _vo.short_name
+				_itemVo.contentTitle = _vo.full_name 
+				_itemVo.chapterLength = _vo.chapter 
 				vMenu.push(_itemVo);
 				for (var j:int = 0; j < _vo.chapter; j++) 
 				{
@@ -66,39 +64,30 @@ package projectComponents.bible.ctrl
 		override public function init():void
 		{
 			super.init()
-		/*	initValue()
-			addItem(0,cTotal)*/
+			initValue()
+			addItem(0,cTotal)
+			nMenu = cTotal
 		}
 		
 		
 		override public function next():void
 		{
 			super.next()
-			nLength = cLength
-			nMenu += nLength
-			addItem(nMenu-cLength,nMenu)
-			setTimeout(function():void{scrollerCtrl.dispatchEvent(new JEvent(JEvent.READY))},500)
+			nMenu += cLength
+			addItem(nMenu - cLength,nMenu)
 		}
 		
 		
 		override public function prev():void
 		{
 			super.prev()
-			var _b:Boolean
-			if(nMenu == cTotal)
-			{
-				nMenu = 0
-				nLength = cLength
-				addItem(nMenu,nLength)
+			if (nMenu > cTotal){
+				nMenu -= cTotal
+				addItem(nMenu - cLength,nMenu)
 				nMenu += cLength
-				_b = true
-			}else if (nMenu>cLength){
-				nLength = cLength
-				addItem(nMenu-nLength,nMenu)
-				nMenu += cLength
-				_b = true
+			}else{
+				scrollerCtrl.dispatchEvent(new JEvent(JEvent.READY))
 			}
-			if (_b)setTimeout(function():void{scrollerCtrl.dispatchEvent(new JEvent(JEvent.READY))},500)
 		}
 		
 		
@@ -106,58 +95,30 @@ package projectComponents.bible.ctrl
 		
 		override protected function createItem(_index:uint):UIComponent
 		{
-			var _lable:Label
 			var _item:UIComponent 
-			if (vMenu[_index].contentTitle==null)
+			var vo:BibleOB
+			vo = vMenu[_index]
+			if (vo.contentTitle==null)
 			{
-				_lable = new Label
-				_lable.text = String(vMenu[_index].chapter)
-				_item = _lable
+				var _number:VolumeNumber_Radio = new VolumeNumber_Radio
+				_number.label = String(vMenu[_index].chapter)
+				_item = _number
+				if (!vo.testament)
+				{
+					_number.currentState = BibleOB.old_testament
+				}else{
+					_number.currentState = BibleOB.new_testament
+				}
 			}else{
-				_lable = new Label
-				_lable.text = vMenu[_index].contentTitle
-				_item = _lable
+				var _text:VolumeLabel = new VolumeLabel
+				_text.$data = vMenu[_index]
+				_item = _text
 			}
 			return _item
 		}
 		
 		
-		override protected function onItemEvent(event:Event):void
-		{
-			super.onItemEvent(event);
-			var item:UIComponent = UIComponent(event.currentTarget)
-			switch(event.type)
-			{
-				case Event.REMOVED_FROM_STAGE:
-					nCount++;
-					nValue += (gr.gap + item.width)
-					switch(act)
-					{
-						case actNext:
-							scroller.horizontalScrollBar.value = scroller.horizontalScrollBar.maximum
-							break;
-						
-						case actPrev:
-							scroller.horizontalScrollBar.value = scroller.horizontalScrollBar.minimum
-							break
-					}
-					if (nCount == nLength) 
-					{
-						switch(act)
-						{
-							case actNext:
-								scroller.horizontalScrollBar.viewport.horizontalScrollPosition -= nValue
-								break;
-							
-							case actPrev:
-								scroller.horizontalScrollBar.viewport.horizontalScrollPosition += nValue
-								break
-						}
-						
-					}
-					break
-			}
-		}
+		
 		
 	}
 }

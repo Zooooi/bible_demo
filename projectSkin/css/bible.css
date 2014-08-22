@@ -5,3 +5,10 @@
 .bibleItem .verse{fontSize:12px;color:#0000ff;}
 .bibleItem .content{fontSize:16px;}
 .bibleItem .title{fontSize:12px;color:#999999;textAlign:right;}
+
+
+.volumeNumber .text1{fontSize:9px;color:#5f5655;}
+.volumeNumber .text2{fontSize:9px;color:#fafafa;}
+
+.volumeLabel {fontSize:12px;color:#fafafa;}
+.volumeLabelNum {fontSize:8px;color:#ffff00; shadowColor:#5f5655; }
