@@ -5,13 +5,10 @@ package projectClass.vo.o
 	public class BibleOB extends VO
 	{
 		
-		public static const old_testament:String = "old_testament";
-		public static const new_testament:String = "new_testament";
-		
 		[Bindable]public var ID:uint
+		[Bindable]public var sn:uint;
 		[Bindable]public var content:String;
 		[Bindable]public var chapter:uint
-		[Bindable]public var chapterLength:uint
 		
 		[Bindable]public var topic:String
 		[Bindable]public var verse:uint;
@@ -23,8 +20,13 @@ package projectClass.vo.o
 		[Bindable]public var full_name:String
 		
 		[Bindable]public var volumeName:String
-		[Bindable]public var contentTitle:String
 		
+		
+		[Bindable]public var sTitle:String
+		
+		[Bindable]public var nVolume:uint
+		[Bindable]public var nChapter:uint
+		[Bindable]public var nChapterLength:uint
 		
 		public function BibleOB()
 		{

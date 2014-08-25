@@ -7,13 +7,13 @@
 		<![CDATA[
 			import mx.events.FlexEvent;
 			
-			import projectComponents.bible.act.ActBibleReader;
+			import projectComponents.bible.act.ActBibleMain;
 			import projectClass.ctrl.Init; 
 			
 			protected function onReaderInit(event:FlexEvent):void
 			{
 				new Init();
-				new ActBibleReader(event.currentTarget)
+				new ActBibleMain(event.currentTarget)
 			}
 			
 		]]>

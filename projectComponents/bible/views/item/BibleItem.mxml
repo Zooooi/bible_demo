@@ -12,7 +12,7 @@
 		<s:Label styleName="chapter" text="{$data.chapter}"/>
 		<s:Label styleName="verse" text=":"/>
 		<s:Label styleName="verse" text="{$data.verse}"/>-->
-		<s:Label styleName="title" text="{$data.contentTitle}"/>
+		<s:Label styleName="title" text="{$data.sTitle}"/>
 	</s:HGroup>
 	<s:Label styleName="content" width="100%" text="{$data.content}"></s:Label>
 </s:VGroup>

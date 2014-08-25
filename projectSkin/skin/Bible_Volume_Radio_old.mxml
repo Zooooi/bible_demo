@@ -24,11 +24,40 @@
 	name=iconDisplay, type=spark.primitives.BitmapImage, required=false
 	name=labelDisplay, type=spark.core.IDisplayText, required=false
 	-->
-	<s:BitmapImage includeIn="up, overAndSelected, down, disabled" source="@Embed('assets/imgs/bible/chapter/volume_number_1.png')" smooth="true" height="100%" width="100%"/>
-	<s:BitmapImage includeIn="upAndSelected, over, downAndSelected,  disabledAndSelected" source="@Embed('assets/imgs/bible/chapter/volume_number_2.png')" smooth="true"  height="100%" width="100%"/>
+	
+	
+	<s:Group height="100%" width="100%" includeIn="up, overAndSelected, down, disabled">
+		<s:Ellipse height="100%" width="100%"> 
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="0xffffff" alpha="1" ratio="0"/>
+					<s:GradientEntry color="0xf1f1f1" alpha="1" ratio="0.5"/>
+					<s:GradientEntry color="0xa9a9a9" alpha="1" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Ellipse>
+	</s:Group>
+	
+	<s:Group height="100%" width="100%"  includeIn="upAndSelected, over, downAndSelected,  disabledAndSelected">
+		<s:Ellipse height="100%" width="100%"> 
+			<s:stroke>
+				<s:SolidColorStroke color="0x68c8d9" weight="1"/>
+			</s:stroke>
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="0x89e9fa" alpha="1" ratio="0.1"/>
+					<s:GradientEntry color="0x68c8d9" alpha="1" ratio="0.5"/>
+					<s:GradientEntry color="0x42a2b3" alpha="1" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Ellipse>
+	</s:Group>
+	
+	
+	
 	
 	<s:Label id="labelDisplay"
-				textAlign="center"
-				verticalAlign="middle"
-				left="0" right="0" top="0" bottom="0" verticalCenter="0"  styleName="text1" styleName.upAndSelected="text2"/>
+			 textAlign="center"
+			 verticalAlign="middle"
+			 left="0" right="0" top="0" bottom="0" verticalCenter="0"  styleName="text1" styleName.upAndSelected="text2"/>
 </s:Skin>

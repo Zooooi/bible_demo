@@ -11,9 +11,8 @@
 			</s:motionPaths>
 		</s:Animate>
 	</fx:Declarations>
-	<rebuilder:Scroller_ex id="_scroller" styleName="scroller" width="100%" height="100%" verticalScrollPolicy="off" skinClass="JsF.components.skin.JScrollerHideScrollbarSkin">
-		<s:HGroup id="_gr" styleName="group" width="100%" height="100%" gap="2" verticalAlign="middle"/>
+	<rebuilder:Scroller_ex id="_scroller" styleName="scroller" width="100%" height="100%" skinClass="JsF.components.skin.JScrollerHideScrollbarSkin">
+		<s:HGroup id="_gr" styleName="group" width="100%" height="100%" gap="3" verticalAlign="middle"/>
 	</rebuilder:Scroller_ex>
 	<s:BusyIndicator id="_dragWaiting" verticalCenter="0" visible="false" width="20" height="20"/>
-	<!--skinClass="JsF.components.skin.JScrollerHideScrollbarSkin"-->
 </components:JScrollerH>

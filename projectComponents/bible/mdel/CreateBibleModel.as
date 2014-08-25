@@ -1,4 +1,4 @@
-package projectComponents.bible.model
+package projectComponents.bible.mdel
 {
 	import JsC.mvc.Model;
 	
@@ -32,7 +32,7 @@ package projectComponents.bible.model
 			var _l:BibleOB = new BibleOB
 			_l.fill(_data.getBible()[_index]);
 			_l.volumeName = _data.getVoumes()[_l.volume-1].short_name
-			_l.contentTitle = _l.volumeName + _l.chapter + ":" + _l.verse;
+			_l.sTitle = _l.volumeName + _l.chapter + ":" + _l.verse;
 			return _l;
 		}
 		

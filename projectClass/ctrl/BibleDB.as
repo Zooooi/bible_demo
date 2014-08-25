@@ -64,7 +64,6 @@ package projectClass.ctrl
 		
 		
 		
-		
 		private function setTableName():void
 		{
 			currentTable = aBibleTable[nCounter]
@@ -124,6 +123,7 @@ package projectClass.ctrl
 			getCurrentResult()
 		}
 		
+		
 		public function prev():void
 		{
 			bPrev = true
@@ -143,7 +143,3 @@ package projectClass.ctrl
 	}
 }
 
-class SQL_Data2
-{
-	
-}
