@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:style="projectComponents.bible.viewers.style.*" xmlns:filters="projectSkin.filters.*" cacheAsBitmap="true" >
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="disabled" />
+		<s:State name="down" />
+		<s:State name="over" />
+		<s:State name="up" />
+	</s:states>
+
+	<!-- SkinParts
+	name=iconDisplay, type=spark.primitives.BitmapImage, required=false
+	name=labelDisplay, type=spark.core.IDisplayText, required=false
+	-->
+	<style:RectButtonMenuNumber includeIn="up" width="100%" height="100%" radiusX="5">
+		<style:stroke>
+			<s:SolidColorStroke color="0x000000" alpha="0.2"/>
+		</style:stroke>
+	</style:RectButtonMenuNumber>
+	<style:RectButtonMenuLabel includeIn="over,down, disabled" width="100%" height="100%" radiusX="5" >
+		<style:stroke>
+			<s:SolidColorStroke color="0x000000" alpha="0.2"/>
+		</style:stroke>
+	</style:RectButtonMenuLabel>
+	
+	<s:Group cacheAsBitmap="true" id="myMask" left="0" right="0" top="0" bottom="0" >
+		<style:RectButtonMenuLabel width="100%" height="100%" radiusX="5" />
+	</s:Group>
+	<s:BitmapImage mask="{myMask}" source="@Embed('assets/imgs/bible/button/go_up.svg')" right="0" bottom="0" smooth="true" alpha="0.6" alpha.disabled="0.8" left="-3" top="-5.5"/>
+</s:Skin>

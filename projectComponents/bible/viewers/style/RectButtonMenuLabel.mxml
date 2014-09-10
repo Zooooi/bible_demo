@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Rect xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		radiusX="20"
+		>
+	<s:stroke>
+		<s:SolidColorStroke color="0x89e9fa"/>
+	</s:stroke>
+	<s:fill>
+		<s:LinearGradient rotation="90">
+			<s:GradientEntry color="0x89e9fa" alpha="1" ratio="0.1"/>
+			<s:GradientEntry color="0x68c8d9" alpha="1" ratio="0.5"/>
+			<s:GradientEntry color="0x42a2b3" alpha="1" ratio="0.9"/>
+		</s:LinearGradient>
+	</s:fill>
+</s:Rect>

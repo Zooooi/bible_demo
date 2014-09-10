@@ -5,10 +5,13 @@ package projectClass.vo.v
 	public class Config extends VO
 	{
 		
+		[Bindable] public static var language:String = "SC";
 		[Bindable] public static var instance:Config
 		[Bindable] public static var name:String 
 		
-		[Bindable] public static var Files:Config_1_files
+		 public static const project:String = "project.db";
+		 public static const user:String = "user.db";
+		[Bindable] public static var Files:Config_1_files;
 		
 		public function Config()
 		{

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:filters="projectSkin.filters.*"
 		>
 	
 	<!-- host component -->
@@ -26,7 +26,7 @@
 	-->
 	
 	
-	<s:Group height="100%" width="100%" includeIn="up, overAndSelected, down, disabled">
+	<s:Group height="100%" width="100%" includeIn="up, overAndSelected, down, disabled" verticalCenter="0" horizontalCenter="0">
 		<s:Ellipse height="100%" width="100%"> 
 			<s:fill>
 				<s:LinearGradient rotation="90">
@@ -38,10 +38,10 @@
 		</s:Ellipse>
 	</s:Group>
 	
-	<s:Group height="100%" width="100%"  includeIn="upAndSelected, over, downAndSelected,  disabledAndSelected">
+	<s:Group height="100%" width="100%"  includeIn="upAndSelected, over, downAndSelected,  disabledAndSelected" verticalCenter="0" horizontalCenter="0">
 		<s:Ellipse height="100%" width="100%"> 
 			<s:stroke>
-				<s:SolidColorStroke color="0x68c8d9" weight="1"/>
+				<s:SolidColorStroke color="0x89e9fa" weight="1"/>
 			</s:stroke>
 			<s:fill>
 				<s:LinearGradient rotation="90">
@@ -54,10 +54,13 @@
 	</s:Group>
 	
 	
+	<fx:Declarations>
+		<filters:ProjectFilterGlow_Text id="glow" color.up="0x68c8d9" color.upAndSelected="0x000000" />
+	</fx:Declarations>
 	
-	
-	<s:Label id="labelDisplay"
+	<s:Label id="labelDisplay" verticalCenter="0" horizontalCenter="0"
+			 filters="{glow}"
 			 textAlign="center"
 			 verticalAlign="middle"
-			 left="0" right="0" top="0" bottom="0" verticalCenter="0"  styleName="text1" styleName.upAndSelected="text2"/>
+			 left="0" right="0" top="0" bottom="0"   styleName="text1" styleName.upAndSelected="text2"/>
 </s:Skin>

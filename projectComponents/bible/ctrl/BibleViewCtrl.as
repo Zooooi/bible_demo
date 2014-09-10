@@ -21,9 +21,9 @@ package projectComponents.bible.ctrl
 				_ui.currentState = BibleVA.current_volume
 			}else*/ if (!_data.testament)
 			{
-				_ui.currentState = BibleVA.old_testament
+				_ui.currentState = BibleVA.state_old_testament
 			}else{
-				_ui.currentState = BibleVA.new_testament
+				_ui.currentState = BibleVA.state_new_testament
 			}
 		}
 		

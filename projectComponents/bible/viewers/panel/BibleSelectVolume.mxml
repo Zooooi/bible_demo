@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 left="0" right="0" top="0" bottom="0" 
+		 filters="{shadow}" xmlns:filters="projectSkin.filters.*" xmlns:style="projectComponents.bible.viewers.style.*"
+		 >
+	<fx:Metadata>
+		[Event(name="CHANGE", type="JsC.events.JEvent")]
+		[Event(name="READY", type="JsC.events.JEvent")]
+		[Event(name="SEND", type="JsC.events.JEvent")]
+	</fx:Metadata>
+	<fx:Declarations>
+		<filters:ProjectDropShadow id="shadow"/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.utils.setTimeout;
+			
+			import spark.events.IndexChangeEvent;
+			
+			import JsC.events.JEvent;
+			
+			[Bindable]public var $volumeIndex:uint
+			[Bindable]public var $chapterIndex:uint
+			[Bindable]public var $text:String
+			
+			protected function spinnerlist1_changeHandler(event:IndexChangeEvent):void
+			{
+				send(event,1)
+			}
+			
+			protected function spinnerlist2_changeHandler(event:IndexChangeEvent):void
+			{
+				send(event,2)
+			}
+			
+			protected function spinnerlist3_changeHandler(event:IndexChangeEvent):void
+			{
+				send(event,3)
+			}
+			
+			private function send(event:IndexChangeEvent,_kind:uint):void
+			{
+				if (SpinnerList(event.currentTarget).selectedItem!=null)
+				{
+					addEventListener(JEvent.READY,function():void{btn_go.enabled = true})
+					btn_go.enabled = false
+					var _event:JEvent = new JEvent(JEvent.CHANGE)
+					_event.index = _kind
+					switch(_kind)
+					{
+						case 3:
+							_event.id = SpinnerList(event.currentTarget).selectedItem
+							break;
+						default:
+							_event.id = SpinnerList(event.currentTarget).selectedItem.id
+							_event.selectIndex = SpinnerList(event.currentTarget).selectedIndex
+							break;
+					}
+					
+					switch(_kind)
+					{
+						case 1:
+							$list2 = null
+							$list3 = null
+							break;
+						
+						case 2:
+							$list3 = null
+							break;	
+					}
+					setTimeout(function():void{dispatchEvent(_event)},50)
+				}
+			}
+			
+			protected function remove():void
+			{
+				Group(parent).removeElement(this)
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<s:ArrayList id="$list1"/>
+		<s:ArrayList id="$list2"/>
+		<s:NumericDataProvider id="$list3"/>
+	</fx:Declarations>
+	
+	<fx:Declarations>
+		<s:Power id="easer1"/>
+		<s:Power id="easer2"/>
+		<s:Fade id="effect_fade" duration="2000" alphaFrom="{0}" alphaTo="1" target="{btn_go}" />
+		<s:Sequence id="buttonEffect" target="{btn_go}" duration="1000" startDelay="2000" repeatCount="0" repeatDelay="0">
+			<s:Parallel>
+				<s:Scale scaleXFrom="1" scaleYFrom="1" scaleXTo="1.2" scaleYTo="1.2" duration="2000" autoCenterTransform="true" applyChangesPostLayout="true"/>
+				<!--<s:Fade duration="400" alphaFrom="1" alphaTo="0.8" target="{btn_go}" />-->
+			</s:Parallel>
+			<s:Parallel>
+				<s:Scale scaleXFrom="1.2" scaleYFrom="1.2" scaleXTo="1" scaleYTo="1" duration="2000" autoCenterTransform="true" applyChangesPostLayout="true"/>
+				<!--<s:Fade duration="400" alphaFrom="0.8" alphaTo="1" target="{btn_go}" />-->
+			</s:Parallel>
+		</s:Sequence>
+		
+		<s:Sequence id="mainEffect" duration="1000">
+			<s:Parallel>
+				<s:Fade duration="400" alphaFrom="0" alphaTo="1" target="{content}" />
+			</s:Parallel>
+		</s:Sequence>
+		
+	</fx:Declarations>
+	
+	<fx:Style source="projectSkin/css/bible.css"/>
+	<s:initialize>
+		<![CDATA[
+			buttonEffect.play()
+			//mainEffect.play()
+		]]>
+	</s:initialize>
+	
+	<s:Group horizontalCenter="0" verticalCenter="0" width="100%" height="100%" click="remove()">
+		<style:RectButtonMenuNumber width="100%" height="100%" alpha="0.05"/><!--width="{content.width+20}" height="{content.height+40}"-->
+	</s:Group>
+	
+	
+	<s:VGroup id="content" verticalCenter="0" left="15" right="15" horizontalCenter="0" width="100%" horizontalAlign="center" gap="15">
+		<s:SpinnerListContainer width="100%"  maxHeight="300" maxWidth="500" styleName="selectChapterPanel">
+			<s:SpinnerList id="list1" height="100%" width="35%" labelField="name" wrapElements="false" dataProvider="{$list1}" change="spinnerlist1_changeHandler(event)" />
+			<s:SpinnerList id="list2" height="100%" width="50%" labelField="name" selectedIndex="@{$volumeIndex}" wrapElements="false" dataProvider="{$list2}" change="spinnerlist2_changeHandler(event)"/>
+			<s:SpinnerList id="list3" height="100%" width="15%" labelField="name" selectedIndex="@{$chapterIndex}" wrapElements="false" dataProvider="{$list3}" change="spinnerlist3_changeHandler(event)"/>
+		</s:SpinnerListContainer>
+		<s:HGroup height="100" width="100%" horizontalAlign="center" >
+				<s:Button id="btn_go"  skinClass="projectSkin.skin.Button_SelectChapterPanel" width="50" height="50" click="dispatchEvent(new JEvent(JEvent.SEND));remove()"/>	
+		</s:HGroup>
+	</s:VGroup>
+</s:Group>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" styleName="volumeCurrent" xmlns:o="projectClass.vo.o.*"
+		 >
+	<fx:Style source="projectSkin/css/bible.css"/>
+	<fx:Script>
+		<![CDATA[
+			import projectClass.vo.o.BibleOB;
+			
+			[Bindable]private var _data:BibleOB;
+			[Bindable]private var myText:String;
+			
+			public function set $data(_value:BibleOB):void
+			{
+				_data = _value
+				myText = (_data.nChapterLength ==0)? "": _data.nChapter + " / " + _data.nChapterLength
+			}
+			public function get $data():BibleOB
+			{
+				return _data
+			}
+		]]>
+	</fx:Script>
+	<s:BitmapImage source="@Embed('assets/imgs/bible/chapter/volume_name.png')" smooth="true" height="100%" width="100%"/>
+	<s:VGroup width="100%" top="0" bottom="0" verticalAlign="middle" gap="2" >
+		<s:Label text="{_data.sTitle}" styleName="text1" width="100%" paddingLeft="6" />
+		<s:Label text="{myText}" styleName="text2" width="100%" paddingLeft="6" />
+	</s:VGroup>
+</s:Group>

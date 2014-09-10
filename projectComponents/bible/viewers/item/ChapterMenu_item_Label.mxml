@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" xmlns:act="projectComponents.bible.act.*" xmlns:v="projectComponents.bible.v.*" xmlns:o="projectClass.vo.o.*"
+		height="38" xmlns:style="projectComponents.bible.viewers.style.*" xmlns:filters="projectSkin.filters.*"
+		 >
+	<fx:Style source="projectSkin/css/bible.css"/>
+	<fx:Declarations>
+		<fx:uint id="nW"/>
+		<filters:ProjectDropShadow id="shadow"/>
+		<filters:ProjectFilterGlow_Text id="glow"  color="{BibleStyle.color00}"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.ResizeEvent;
+			
+			import projectClass.vo.o.BibleOB;
+			import projectClass.vo.v.BibleStyle;
+			
+			[Bindable]public var data:BibleOB
+			
+			protected function onResize(event:ResizeEvent):void
+			{
+			
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="old_testament" />
+		<s:State name="new_testament" />
+		<s:State name="current_volume" />
+	</s:states>
+	
+	
+	<s:Group left="10" height="100%" filters="{shadow}">
+		<style:RectButtonMenuLabel height="100%" width="{nW+20}" includeIn="old_testament"/>
+		<s:HGroup gap="3" id="myText" horizontalCenter="0" verticalCenter="0" filters="{glow}" >
+			<s:Label styleName="volumeLabel" top="0" bottom="0" textAlign="right" horizontalCenter="0" verticalCenter="0" verticalAlign="middle" text="{data.sTitle}" resize="onResize(event)" />
+			<s:Label styleName="volumeLabelNum" top="0" bottom="0" textAlign="left" horizontalCenter="0" verticalCenter="0" verticalAlign="middle" text="{String(data.nChapterLength)}" resize="onResize(event)" />
+		</s:HGroup>
+	</s:Group>
+	
+</s:Group>
