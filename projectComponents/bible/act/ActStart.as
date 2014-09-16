@@ -31,7 +31,7 @@ package projectComponents.bible.act
 					
 				})
 				initBible.addEventListener(JEvent.COMPLETE,function(event:JEvent):void{
-					var _main:ActMain_BibleReader = new ActMain_BibleReader(new BibleReader)
+					var _main:ActMain_Bible = new ActMain_Bible(new BibleReader)
 					gr.addElement(_main._getView())
 				})
 				initBible.init()

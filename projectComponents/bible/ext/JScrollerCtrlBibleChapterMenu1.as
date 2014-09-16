@@ -12,7 +12,7 @@ package projectComponents.bible.ext
 	import JsC.debug.CountTime;
 	import JsC.events.JEvent;
 	
-	import JsF.components.act.JScrollerActBase;
+	import JsF.components.scroller.act.JScrollerActBase;
 	
 	import projectClass.vo.o.BibleOB;
 	import projectClass.vo.v.BibleVA;

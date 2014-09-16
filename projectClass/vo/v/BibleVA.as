@@ -13,6 +13,7 @@ package projectClass.vo.v
 			
 		public static const num_old:uint = 39
 		public static const num_new:uint = 27
-			
+		
+		
 	}
 }

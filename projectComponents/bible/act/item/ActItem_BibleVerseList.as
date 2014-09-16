@@ -1,4 +1,4 @@
-package projectComponents.bible.act
+package projectComponents.bible.act.item
 {
 	import flash.events.MouseEvent;
 	
@@ -56,7 +56,6 @@ package projectComponents.bible.act
 				}
 				sendEvent(JEvent.SELECT)
 			}
-			
 		}
 		
 		private function sendEvent(_type:String):void

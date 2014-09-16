@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 
+		 xmlns:viewers="projectComponents.bible.viewers.*" 
+		 xmlns:style="projectComponents.bible.viewers.style.*" 
+		 xmlns:panel="projectComponents.bible.viewers.panel.*" 
+		 xmlns:skin="projectSkin.skin.*" 
+		 xmlns:o="projectClass.vo.o.*"
+		 
+		 left="0" right="0" top="0" bottom="0"
+		 
+		 xmlns:item="projectComponents.bible.viewers.item.*" xmlns:skin1="JsF.skin.*" xmlns:viewer="JsF.components.scroller.viewer.*"
+		 
+		 
+		 >
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.utils.setTimeout;
+			
+			import mx.core.UIComponent;
+			
+			import spark.components.Group;
+			
+			import JsA.geom.ActImageResize;
+			
+			import JsC.events.JEvent;
+		]]>
+	</fx:Script>
+	
+	<fx:Style source="projectSkin/css/bible.css"/>
+	
+	<fx:Declarations>
+		<o:BibleOB id="$data"/>
+		<fx:uint id="$degree"/>
+	</fx:Declarations>
+	
+	<fx:Metadata>
+		[Event(name="RESTART", type="JsC.events.JEvent")]
+		[Event(name="STOP", type="JsC.events.JEvent")]
+		[Event(name="CHANGED", type="JsC.events.JEvent")]
+		
+	</fx:Metadata>
+	
+	<s:preinitialize>
+		<![CDATA[
+		addEventListener(JEvent.STOP,function(event:JEvent):void{
+		$scrollerSource.stopDroping()
+		$scrollerTarget.stopDroping()
+		})
+		]]>
+	</s:preinitialize>
+	
+	<s:SparkSkin width="100%" height="100%">
+		<style:RectBackGround_Exercise radiusX="0"/>
+		<s:BitmapImage source="@Embed('/assets/imgs/bible/images/exercise_bg_00.png')" width="100%" height="100%" fillMode="repeat" smooth="true"  bottom="5" alpha="0.2" />
+	</s:SparkSkin>
+	
+	<s:VGroup top="60" bottom="5" left="5" right="5" horizontalAlign="center" gap="7">
+		
+		<s:Group width="100%" height="{blackboard.height}">
+			<s:Image id="blackboard" source="@Embed('/assets/imgs/bible/images/exercise_blackboard.png')" horizontalCenter="0" height="100%" smooth="true"  left="-5" right="-5" horizontalAlign="center" verticalAlign="top">
+				
+				<s:preinitialize>
+					<![CDATA[
+					new ActImageResize(UIComponent(event.currentTarget))
+					]]>
+				</s:preinitialize>
+			</s:Image>
+			<s:VGroup top="20" bottom="50" left="10" right="10"  horizontalAlign="center" horizontalCenter="0">
+				<s:Label text="{$data.sTitle}" styleName="exercise"/>
+				<!-- ...............................................................target.................................................................................. -->
+				<viewer:JScroller id="$scrollerTarget" width="100%" height="100%" skinClass="JsF.components.scroller.skin.JScrollerHide_VScrollbarSkin" horizontalScrollPolicy="off">
+					<s:VGroup id="$blackboard" width="100%" height="100%"/>
+				</viewer:JScroller>
+			</s:VGroup>
+			
+		</s:Group>
+		
+		<s:Group width="100%" height="40%" >
+			
+			<style:RectButtonMenuNumber  horizontalCenter="0" height="100%" left="15" right="15">
+				<style:fill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="0xffffff" alpha="0.5" ratio="0"/>
+						<s:GradientEntry color="0xf1f1f1" alpha="0.5" ratio="0.5"/>
+						<s:GradientEntry color="0xa9a9a9" alpha="0.5" ratio="1"/>
+					</s:LinearGradient>
+				</style:fill>
+			</style:RectButtonMenuNumber>
+			
+			<!-- ...............................................................source.................................................................................. -->
+			<s:VGroup top="2" bottom="2" left="20" right="20"   horizontalAlign="center">
+				<viewer:JScroller id="$scrollerSource" width="100%" height="100%" skinClass="JsF.components.scroller.skin.JScrollerHide_VScrollbarSkin" horizontalScrollPolicy="off">
+					<s:VGroup id="$source" width="100%" height="100%"/>
+				</viewer:JScroller>
+			</s:VGroup>
+		</s:Group>
+		
+		<s:Group width="100%" height="50">
+			<s:BitmapImage source="@Embed('/assets/imgs/bible/images/exercise_titlebar.png')" horizontalCenter="0" verticalCenter="0" width="100%" height="100%" smooth="true" alpha="0.05"/>
+			<s:HGroup horizontalAlign="center" verticalAlign="middle" verticalCenter="0" horizontalCenter="0" gap="10">
+				<s:HGroup horizontalAlign="center" verticalAlign="middle" >
+					<s:BitmapImage source="@Embed('/assets/imgs/bible/icon/exercise_easy.svg')" width="30" height="25" smooth="true" />
+					<s:HSlider id="$setting_diff" width="120" maximum="7" minimum="1" value="@{$degree}" changeEnd="dispatchEvent(new JEvent(JEvent.CHANGED))"/>
+					<s:BitmapImage source="@Embed('/assets/imgs/bible/icon/exercise_hard.svg')" width="20" height="25" smooth="true" />
+				</s:HGroup>
+				<s:Spacer width="20" height="1"/>
+				<s:Button skinClass="projectSkin.skin.Button_Restart" width="30" height="30" click="
+						  var btn:Button = Button(event.currentTarget);
+						  btn.enabled = false;
+						  dispatchEvent(new JEvent(JEvent.RESTART));
+						  setTimeout(function():void{btn.enabled = true},500)
+						  ">
+				</s:Button>
+				<s:Button skinClass="projectSkin.skin.Button_Close" width="30" height="30" click="Group(parent).removeElement(this)"/>
+			</s:HGroup>
+		</s:Group>
+	</s:VGroup>
+	
+	<s:Group id="$draging"  left="0" right="0" top="0" bottom="0" clipAndEnableScrolling="true"/>
+	
+</s:Group>

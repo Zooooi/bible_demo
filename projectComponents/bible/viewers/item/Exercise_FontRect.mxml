@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:style="projectComponents.bible.viewers.style.*"
+		 styleName="exercise_rect"
+		 >
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="over"/>
+		<s:State name="wrong"/>
+		<s:State name="right"/>
+		<s:State name="freeze"/>
+	</s:states>
+
+	<fx:Style source="projectSkin/css/bible.css"/>
+	<fx:Declarations>
+		<fx:int id="$num"/>
+		<fx:String id="$text"/>
+	</fx:Declarations>
+	
+	<s:SparkSkin left="0" right="0" top="0" bottom="0">
+		
+		<s:Rect left="0" right="0" bottom="1" includeIn="normal" >
+			<s:stroke>
+				<s:SolidColorStroke color="0xffffff" weight="1" alpha="0.8"/>
+			</s:stroke>
+		</s:Rect>
+		
+		
+		<s:Rect left="0" right="0" bottom="0" top="0" includeIn="normal,freeze" radiusX="2" >
+			<s:fill>
+				<s:SolidColor color="#ffffff" alpha="0.08" alpha.freeze="0.03"/>
+			</s:fill>
+		</s:Rect>
+		
+		<s:Label text="{$num.toString()}" bottom="1" left="0" paddingRight="2" right="1" excludeFrom="freeze"/>
+		
+	</s:SparkSkin>
+	
+	<s:Group id="$content" verticalCenter="0" horizontalCenter="0">
+		
+	</s:Group>
+</s:Group>

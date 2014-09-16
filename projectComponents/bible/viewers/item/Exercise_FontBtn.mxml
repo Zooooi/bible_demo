@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:style="projectComponents.bible.viewers.style.*" 
+		 styleName.onMouseDW="exercise_btn_2" styleName="exercise_btn_1" xmlns:filters="projectSkin.filters.*" xmlns:item="projectComponents.bible.viewers.item.*"
+		 
+		 >
+	<fx:Script>
+		<![CDATA[
+			import JsC.events.MotionEvent;
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="onMouseUP"/>
+		<s:State name="onMouseDW"/>
+		<s:State name="onDropIn"/>
+	</s:states>
+	
+	
+	<fx:Metadata>
+		[Event(name="MOVINGOUT", type="JsC.events.MotionEvent")]
+		[Event(name="MOVE_END", type="JsC.events.MotionEvent")]
+		
+		[Event(name="ADDED_TO_TARGET", type="JsC.events.GameEvent")]
+		[Event(name="ADDED_TO_SOURCE", type="JsC.events.GameEvent")]
+		[Event(name="DRAG_START", type="JsC.events.GameEvent")]
+	</fx:Metadata>
+	
+	<s:creationComplete>
+		<![CDATA[
+		/** return Source*/
+		addEventListener(MotionEvent.MOVINGOUT,function(event:MotionEvent):void{enabled=false;moveOut.play()})
+		]]>
+	</s:creationComplete>
+	
+	
+	<fx:Declarations>
+		<s:Sequence id="moveOut" target="{mybody}" 
+					effectEnd="
+					enabled = true; 
+					dispatchEvent(new MotionEvent(MotionEvent.MOVE_END))
+					">
+			<s:Parallel >
+				<s:Scale scaleXTo="4" scaleYTo="4" duration="300" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
+				<s:Fade alphaTo="0" duration="500"/>
+			</s:Parallel>
+			<s:Parallel >
+				<s:Scale scaleXTo="1" scaleYTo="1" duration="0" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
+				<s:Fade alphaTo="1" duration="0"/>
+			</s:Parallel>
+		</s:Sequence>
+	</fx:Declarations>
+	
+	
+	<fx:Declarations>
+		<fx:String id="text"/>
+	</fx:Declarations>
+	
+	
+	<fx:Declarations>
+		<s:Power id="easer1"/>
+		<s:Bounce id="easer2"/>
+		<filters:ProjectDropShadow id="shadow"/>
+		<filters:ProjectFilterGlow_Text id="glow" color="0x3c4d2e"/>
+	</fx:Declarations>
+	
+	
+	<s:transitions>
+		
+		<s:Transition fromState="onMouseUP" toState="onMouseDW">
+			<s:Sequence target="{mybody}" >
+				<s:Sequence repeatCount="1">
+					<s:Parallel >
+						<s:Scale scaleXTo="2.5" scaleYTo="2.5" duration="200" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
+					</s:Parallel>
+				</s:Sequence>
+				<s:Sequence repeatCount="0">
+					<s:Parallel>
+						<s:Scale scaleXTo="2" scaleYTo="2" duration="2000" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
+					</s:Parallel>
+					<s:Parallel>
+						<s:Scale scaleXTo="2.5" scaleYTo="2.5" duration="2000" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
+					</s:Parallel>
+				</s:Sequence>
+			</s:Sequence>
+		</s:Transition>
+		
+		<s:Transition fromState="onMouseDW" toState="onDropIn">
+			<s:Sequence>
+				<s:Parallel target="{mybody}" effectEnd="currentState = 'onMouseUP'">
+					<s:Fade target="{bg}" alphaTo="0" duration="400" easer="{easer1}"/>
+					<s:Scale  scaleXFrom="2" scaleYFrom="2" scaleXTo="1" scaleYTo="1" duration="300" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer2}"/>
+				</s:Parallel>
+			</s:Sequence>
+		</s:Transition>
+		
+		<s:Transition fromState="onMouseUP" toState="onDropIn">
+			<s:Sequence target="{mybody}" effectEnd="currentState = 'onMouseUP';">
+				<s:Parallel>
+					<s:Scale scaleXFrom="2" scaleYFrom="2" scaleXTo="1" scaleYTo="1" duration="300" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer2}"/>
+				</s:Parallel>
+			</s:Sequence>
+		</s:Transition>
+		
+	</s:transitions>
+	
+	
+	<fx:Style source="projectSkin/css/bible.css"/>
+	
+	<s:SparkSkin left="0" right="0" top="0" bottom="0" id="mybody" filters.onMouseDW="{[shadow]}" cacheAsBitmap="true">
+		<s:Rect left="0" right="0" bottom="0" top="0" includeIn="onMouseDW,onDropIn" radiusX="2" alpha="0" alpha.onMouseDW="0.4" id="bg">
+			<s:fill>
+				<s:SolidColor color="#ffffff" />
+			</s:fill>
+		</s:Rect>
+		<s:Label verticalAlign="middle" paddingTop="2" paddingBottom="2" paddingLeft="2" paddingRight="2" styleName="exercise_btn" text="{text}" width="100%" height="100%" />
+	</s:SparkSkin>
+	
+</s:Group>
+

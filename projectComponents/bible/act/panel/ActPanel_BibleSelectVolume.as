@@ -1,4 +1,4 @@
-package projectComponents.bible.act
+package projectComponents.bible.act.panel
 {
 	import flash.events.Event;
 	
@@ -9,13 +9,14 @@ package projectComponents.bible.act
 	
 	import projectClass.vo.o.BibleOB;
 	
+	import projectComponents.bible.act.ActMain_Bible_Base;
 	import projectComponents.bible.mdel.CreateChapterModel;
 	import projectComponents.bible.viewers.panel.BibleSelectVolume;
 	
 	[Event(name="SEND", type="JsC.events.JEvent")]
 	
 	
-	public class ActPanel_BibleSelectVolume extends ActMain_BibleBase
+	public class ActPanel_BibleSelectVolume extends ActMain_Bible_Base
 	{
 		private var chapterPanel:BibleSelectVolume
 		private var currentVo:BibleOB
@@ -31,6 +32,15 @@ package projectComponents.bible.act
 				
 			myVo = new BibleOB
 			crChapterMdel = new CreateChapterModel
+				
+			addEventListener(JEvent.DESTORY,function(event:JEvent):void{
+				removeEventListener(event.type,arguments.callee)
+				chapterPanel = null
+				currentVo = null
+				myVo = null
+				crChapterMdel = null
+			})
+			_destory_From_View(_vi)
 		}
 		
 		protected function onViewSendEvent(event:Event):void
@@ -63,7 +73,6 @@ package projectComponents.bible.act
 			chapterPanel.$volumeIndex = currentVo.sn -1
 			chapterPanel.$chapterIndex = currentVo.nChapter - 1
 			crChapterMdel.setCurrentVo(currentVo)
-			
 		}
 		
 		

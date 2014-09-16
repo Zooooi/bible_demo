@@ -21,3 +21,9 @@
 /*panel selectChapterPanel*/
 .selectChapterPanel{fontSize:14px;fontWeight:bold;fontAntiAliasType:advanced;color:#0b0b0b;}
 .selectChapterButton{fontSize:14px;fontWeight:bold;fontAntiAliasType:advanced;}
+
+
+.exercise{fontSize:18px;color:#ffff00;}
+.exercise_btn_1{fontSize:25px;fontWeight:bold;color:#ffffff;textAlign:center}
+.exercise_btn_2{fontSize:25px;fontWeight:bold;color:#f0f0f0;textAlign:center}
+.exercise_rect{fontSize:7px;color:#ffffff;textAlign:right}

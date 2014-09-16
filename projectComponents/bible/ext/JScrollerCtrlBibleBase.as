@@ -1,7 +1,7 @@
 package projectComponents.bible.ext
 {
-	import JsF.components.act.JScrollerActBase;
-	import JsF.components.act.JScrollerCtrlDragPage;
+	import JsF.components.scroller.act.JScrollerActBase;
+	import JsF.components.scroller.ctrl.JScrollerCtrlDragPage;
 	
 	import projectComponents.bible.ctrl.DataBibleController;
 	

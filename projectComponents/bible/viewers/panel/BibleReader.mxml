@@ -1,33 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="JsF.components.*" xmlns:symbol="projectComponents.bible.views.symbol.*"
-		 top="0" bottom="0" left="0" right="0" xmlns:viewers="projectComponents.bible.viewers.*" xmlns:symbol1="projectComponents.bible.viewers.symbol.*" xmlns:style="projectComponents.bible.viewers.style.*"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="JsF.components.*"
+		 top="0" bottom="0" left="0" right="0" xmlns:viewers="projectComponents.bible.viewers.*" xmlns:symbol="projectComponents.bible.viewers.symbol.*" xmlns:style="projectComponents.bible.viewers.style.*" xmlns:viewer="JsF.components.scroller.viewer.*"
 		 >
-
+	
 	<s:states>
 		<s:State name="bible"/>
-		<s:State name="volume"/>
+		<s:State name="selected"/>
+		<s:State name="popup"/>
 	</s:states>
 	
-	<s:Group top="0" bottom="0" width="100%" includeIn="bible">
-		<style:RectBibleReader_Background height="100%" width="100%"/>
+	<fx:Declarations>
+		<s:Power id="easerPower" easeInFraction="0.5"/>
+	</fx:Declarations>
+	
+	<s:transitions>
+		<s:Transition autoReverse="true" fromState="bible" toState="selected">
+			<s:Sequence>
+				<s:Parallel >
+					<s:Resize duration="300" easer="{easerPower}" targets="{[$scroller]}"/>
+					<s:Move duration="300" easer="{easerPower}" targets="{[$bottomBar]}"/>
+				</s:Parallel>
+			</s:Sequence>
+		</s:Transition>
+	</s:transitions>
+	
+	
+	<style:RectBackground_BibleReader height="100%" width="100%" radiusX="0" excludeFrom="popup"/>
+	
+	<s:Group top="0" bottom="0" width="100%">
 		
 		<!-- chaptermenu -->
-		<s:Group id="chapter" height="55" left="0" right="0">
+		<s:Group id="chapter" height="55" left="0" right="0" >
 			<style:RectMenuBG radiusX="7" height="100%" width="100%" top="0" bottom="1" />
-			
-			<symbol1:JScrollerH2 id="$menu" width="100%" height="100%" left="90" right="-2"/>
-			<symbol1:VolumeCurrent id="$volume" left="0" height="100%" width="100" top="-2" />
+			<symbol:JScrollerH2 id="$menu" width="100%" height="100%" left="90" right="-2"/>
+			<symbol:VolumeCurrent id="$volume" left="0" height="100%" width="100" top="-2" />
 			<s:Button skinClass="projectSkin.skin.Button_MainMenu" width="24" height="24" left="1" verticalCenter="-2"/>
 		</s:Group> 
 		
 		<!-- content -->
-		<components:JScrollerV id="$scroller" width="100%" top="60" bottom="2"/>
+		<viewer:JcScrollerV id="$scroller" width="100%" top="60" bottom.bible="2" bottom.selected="40" excludeFrom="popup"/>
+		
+		
+		<!-- bottom -->
+		<style:RectButtonMenuLabel id="$bottomBar" width="100%" height="40" includeIn="selected" bottom.bible = "-40" bottom.selected="0" radiusX="0" />
 	</s:Group>
 	
 	
-	<s:Group id="$container" top="0" bottom="0" width="100%" />
-		
-	
+	<s:Group id="$container" top="0" bottom="0" left="0" right="0" />
 </s:Group>

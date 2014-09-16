@@ -2,7 +2,7 @@ package projectComponents.bible.ctrl
 {
 	import JsA.data.SQLiteEvent;
 	
-	import JsC.action.ActFunc;
+	import JsC.ctrl.ActFunctions;
 	import JsC.debug.CountTime;
 	import JsC.events.JEvent;
 	import JsC.mvc.Controller;
@@ -23,12 +23,12 @@ package projectComponents.bible.ctrl
 		private var aFiles:Vector.<String> = Vector.<String>(["bible_sc_cuv.db"])
 	
 		private var bibleData:DataBibleController
-		private var actFunc:ActFunc
+		private var actFunc:ActFunctions
 		
 		public function DataLoader()
 		{
 			CountTime.display("DataLoader")
-			actFunc = new ActFunc([initProject,initBible,initComplete])
+			actFunc = new ActFunctions([initProject,initBible,initComplete])
 			actFunc.init()
 		}
 		

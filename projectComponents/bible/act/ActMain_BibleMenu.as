@@ -4,7 +4,7 @@ package projectComponents.bible.act
 	
 	import JsC.events.JEvent;
 	
-	import JsF.components.act.JScrollerActH;
+	import JsF.components.scroller.act.JScrollerActH;
 	
 	import projectClass.vo.o.BibleOB;
 	import projectClass.vo.v.BibleVA;
@@ -12,9 +12,10 @@ package projectComponents.bible.act
 	import projectComponents.bible.ext.JScrollerCtrlBibleChapterMenu2PageFlip;
 	import projectComponents.bible.viewers.panel.BibleReader;
 	import projectComponents.bible.viewers.panel.BibleSelectVolume;
+	import projectComponents.bible.act.panel.ActPanel_BibleSelectVolume;
 
 	
-	public class ActMain_BibleMenu extends ActMain_BibleBase
+	public class ActMain_BibleMenu extends ActMain_Bible_Base
 	{
 		
 		private var actChapter:JScrollerCtrlBibleChapterMenu2PageFlip
@@ -93,20 +94,13 @@ package projectComponents.bible.act
 					switch(_vo.kind)
 					{
 						case BibleVA.kind_volume:
-							
-							if (view.$container.numElements != 0)
-							{
-								view.$container.removeAllElements()
-							}
-							
 							var _ctrl:ActPanel_BibleSelectVolume = new ActPanel_BibleSelectVolume(new BibleSelectVolume)
 							_ctrl.addEventListener(JEvent.SEND,function(event:JEvent):void{
 								actChapter.selectVolume(BibleOB(event._data))
 							})
 							_ctrl._addEvent(event)
 							_ctrl.init()
-							
-							view.$container.addElement(_ctrl._getView())
+							__actViews.popUp(_ctrl._getView())
 							
 							break;
 						
@@ -118,7 +112,6 @@ package projectComponents.bible.act
 							})
 							break;
 					}
-					
 					
 					break;
 				

@@ -18,6 +18,6 @@
 	name=iconDisplay, type=spark.primitives.BitmapImage, required=false
 	name=labelDisplay, type=spark.core.IDisplayText, required=false
 	-->
-	<s:BitmapImage source="@Embed('assets/imgs/bible/button/game1.svg')" width="100%" height="100%" smooth="true" alpha.disabled="0.8" />
-	<s:BitmapImage source.down="@Embed('assets/imgs/bible/button/game1_ov.svg')" width="100%" height="100%" smooth="true" alpha.disabled="0.8" />
+	<s:BitmapImage source="@Embed('/assets/imgs/bible/button/game1.svg')" width="100%" height="100%" smooth="true" alpha.disabled="0.8" />
+	<s:BitmapImage source.down="@Embed('/assets/imgs/bible/button/game1_ov.svg')" width="100%" height="100%" smooth="true" alpha.disabled="0.8" />
 </s:Skin>

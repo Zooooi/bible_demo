@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 width="100%" height="100%" xmlns:viewers="projectComponents.bible.viewers.*" xmlns:style="projectComponents.bible.viewers.style.*"
+			 >
+	<fx:Script>
+		<![CDATA[
+			
+			import JsC.events.JEvent;
+			
+			import projectSkin.skin.Button_Close;
+		]]>
+	</fx:Script>
+	<fx:Metadata>
+		[Event(name="CLOSE", type="JsC.events.JEvent")]
+	</fx:Metadata>
+	<s:states>
+		<s:State name="state1"/>
+		<s:State name="state2"/>
+	</s:states>
+	
+	<style:RectBackGround_FullScreen/>
+	<style:RectBackGround_Exercise left="1" top="1"/>
+	
+</s:SparkSkin>

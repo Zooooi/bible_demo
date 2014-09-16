@@ -21,7 +21,7 @@
 			}
 		]]>
 	</fx:Script>
-	<s:BitmapImage source="@Embed('assets/imgs/bible/chapter/volume_name.png')" smooth="true" height="100%" width="100%"/>
+	<s:BitmapImage source="@Embed('/assets/imgs/bible/chapter/volume_name.png')" smooth="true" height="100%" width="100%"/>
 	<s:VGroup width="100%" top="0" bottom="0" verticalAlign="middle" gap="2" >
 		<s:Label text="{_data.sTitle}" styleName="text1" width="100%" paddingLeft="6" />
 		<s:Label text="{myText}" styleName="text2" width="100%" paddingLeft="6" />

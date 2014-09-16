@@ -3,7 +3,8 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		radiusX="15" height="100%" width="100%" alpha="1"	>
 		<s:stroke>
-			<s:SolidColorStroke color="0x89e9fa" weight="1"/>
+			<!--<s:SolidColorStroke color="0x89e9fa" weight="1"/>-->
+			<s:SolidColorStroke color="0x616161" weight="1"/>
 		</s:stroke>
 		<s:fill>
 			<s:SolidColor color="0xffffff"/>

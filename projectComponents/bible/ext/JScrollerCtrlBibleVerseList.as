@@ -1,6 +1,5 @@
 package projectComponents.bible.ext
 {
-	import flash.events.Event;
 	import flash.geom.Rectangle;
 	
 	import mx.controls.Spacer;
@@ -11,17 +10,16 @@ package projectComponents.bible.ext
 	import JsC.debug.CountTime;
 	import JsC.events.JEvent;
 	
-	import JsF.components.act.JScrollerActBase;
+	import JsF.components.scroller.act.JScrollerActBase;
 	
 	import projectClass.vo.o.BibleOB;
 	
-	import projectComponents.bible.act.ActItem_BibleVerseList;
 	import projectComponents.bible.ctrl.DataBibleController;
 	import projectComponents.bible.viewers.item.BibleVerseList_item;
 	
 	
-	[Event(name="NEWGAME", type="JsC.events.JEvent")]
-	[Event(name="SELECT", type="JsC.events.JEvent")]
+	[Event(name="ITEM_CREATE", type="JsC.events.JEvent")]
+	
 	
 	public class JScrollerCtrlBibleVerseList extends JScrollerCtrlBibleBase
 	{
@@ -84,20 +82,13 @@ package projectComponents.bible.ext
 			{
 				_item = new BibleVerseList_item
 				_item.$data=currModel.getBibleData(sql,_index)
-				var itemCtrl:ActItem_BibleVerseList = new ActItem_BibleVerseList(_item)
-				itemCtrl.addEventListener(JEvent.NEWGAME,onItemJEvent)	
-				itemCtrl.addEventListener(JEvent.SELECT,onItemJEvent)	
 				
+				var _event:JEvent = new JEvent(JEvent.ITEM_CREATE)
+				_event._obj = _item
+				dispatchEvent(_event)
 			}
 			return _item
 		}
-		
-		protected function onItemJEvent(event:JEvent):void
-		{
-			var _event:JEvent = new JEvent(event.type)
-			_event._vo = event._vo
-			dispatchEvent(_event)
-		}		
 		
 		
 		
