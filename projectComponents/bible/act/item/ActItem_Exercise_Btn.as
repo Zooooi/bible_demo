@@ -4,7 +4,7 @@ package projectComponents.bible.act.item
 	
 	import JsA.gameEngine.Game_DragAndDrop;
 	
-	import JsC.events.GameEvent;
+	import JsC.events.JGameStateEvent;
 	import JsC.mvc.ActionUI;
 	import JsC.mvc.Controller;
 	
@@ -27,14 +27,14 @@ package projectComponents.bible.act.item
 			if (_value is Game_DragAndDrop)
 			{
 				gameCtrl = Game_DragAndDrop(_value)
-				gameCtrl.addEventListener(GameEvent.ADDED_TO_TARGET,onGameEvent)
-				gameCtrl.addEventListener(GameEvent.ADDED_TO_SOURCE,onGameEvent)
-				gameCtrl.addEventListener(GameEvent.RETURN_TO_SOURCE,onGameEvent)
-				gameCtrl.addEventListener(GameEvent.DRAG_UPDATE,onGameEvent)
+				gameCtrl.addEventListener(JGameStateEvent.ADDED_TO_TARGET,onGameEvent)
+				gameCtrl.addEventListener(JGameStateEvent.ADDED_TO_SOURCE,onGameEvent)
+				gameCtrl.addEventListener(JGameStateEvent.RETURN_TO_SOURCE,onGameEvent)
+				gameCtrl.addEventListener(JGameStateEvent.DRAG_UPDATE,onGameEvent)
 			}
 		}
 		
-		protected function onGameEvent(event:GameEvent):void
+		protected function onGameEvent(event:JGameStateEvent):void
 		{
 			trace(event)
 		}

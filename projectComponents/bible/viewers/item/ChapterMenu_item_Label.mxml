@@ -3,7 +3,7 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" xmlns:act="projectComponents.bible.act.*" xmlns:v="projectComponents.bible.v.*" xmlns:o="projectClass.vo.o.*"
 		height="38" xmlns:style="projectComponents.bible.viewers.style.*" xmlns:filters="projectSkin.filters.*"
 		 >
-	<fx:Style source="projectSkin/css/bible.css"/>
+	
 	<fx:Declarations>
 		<fx:uint id="nW"/>
 		<filters:ProjectDropShadow id="shadow"/>
@@ -13,7 +13,7 @@
 		<![CDATA[
 			import mx.events.ResizeEvent;
 			
-			import projectClass.vo.o.BibleOB;
+			import projectComponents.bible.vo.BibleOB;
 			import projectClass.vo.v.BibleStyle;
 			
 			[Bindable]public var data:BibleOB
@@ -34,10 +34,10 @@
 	
 	
 	<s:Group left="10" height="100%" filters="{shadow}">
-		<style:RectButtonMenuLabel height="100%" width="{nW+20}" includeIn="old_testament"/>
+		<style:RectButtonMenuLabel height="100%" width="{nW+30}" includeIn="old_testament"/>
 		<s:HGroup gap="3" id="myText" horizontalCenter="0" verticalCenter="0" filters="{glow}" >
 			<s:Label styleName="volumeLabel" top="0" bottom="0" textAlign="right" horizontalCenter="0" verticalCenter="0" verticalAlign="middle" text="{data.sTitle}" resize="onResize(event)" />
-			<s:Label styleName="volumeLabelNum" top="0" bottom="0" textAlign="left" horizontalCenter="0" verticalCenter="0" verticalAlign="middle" text="{String(data.nChapterLength)}" resize="onResize(event)" />
+		<!--	<s:Label styleName="volumeLabelNum" top="0" bottom="0" textAlign="left" horizontalCenter="0" verticalCenter="0" verticalAlign="middle" text="{String(data.nChapterLength)}" resize="onResize(event)" />-->
 		</s:HGroup>
 	</s:Group>
 	

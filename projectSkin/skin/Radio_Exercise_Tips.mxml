@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:filters="projectSkin.filters.*"
+		filters="{[glow]}"
+		>
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("spark.components.RadioButton")]
+	</fx:Metadata>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="disabledAndSelected" />
+		<s:State name="downAndSelected" />
+		<s:State name="overAndSelected" />
+		<s:State name="upAndSelected" />
+		<s:State name="disabled" />
+		<s:State name="down" />
+		<s:State name="over" />
+		<s:State name="up" />
+	</s:states>
+	<fx:Declarations>
+		<filters:ProjectFilterGlow_icon id="glow"  />
+	</fx:Declarations>
+	<s:Image source="@Embed('/assets/imgs/bible/icon/exercise_tips_1.png')" width="100%" height="100%" smooth="true" includeIn="up,overAndSelected,downAndSelected,disabledAndSelected"  />
+	<s:Image source="@Embed('/assets/imgs/bible/icon/exercise_tips_2.png')" width="100%" height="100%" smooth="true" includeIn="upAndSelected,over,down,disabled"  alpha.upAndSelected="0.6"/>
+	<s:Label id="labelDisplay"
+			 textAlign="center"
+			 verticalAlign="middle"
+			 maxDisplayedLines="1"
+			 horizontalCenter="-1"
+			 top="-8" />
+</s:Skin>

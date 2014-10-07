@@ -5,11 +5,11 @@
 			   skinClass.new_testament="projectSkin.skin.Bible_Volume_Radio_new" 
 			   width="38" height="38" xmlns:o="projectClass.vo.o.*"
 			   label="{String($data.nChapter)}"
-			   filters="{shadow}" xmlns:filters="projectSkin.filters.*"
+			   filters="{shadow}" xmlns:filters="projectSkin.filters.*" xmlns:vo="projectComponents.bible.vo.*"
 			   >
-	<fx:Style source="projectSkin/css/bible.css"/>
+	
 	<fx:Declarations>
-		<o:BibleOB id="$data"/>
+		<vo:BibleOB id="$data"/>
 		<filters:ProjectDropShadow id="shadow"/>
 	</fx:Declarations>
 	<s:states>

@@ -2,14 +2,40 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:style="projectComponents.bible.viewers.style.*" 
-		 styleName.onMouseDW="exercise_btn_2" styleName="exercise_btn_1" xmlns:filters="projectSkin.filters.*" xmlns:item="projectComponents.bible.viewers.item.*"
-		 
+		 styleName.onMouseDW="exercise_btn_2" styleName="exercise_btn_1" xmlns:filters="projectSkin.filters.*" xmlns:item="projectComponents.bible.viewers.item.*" xmlns:symbol="projectComponents.bible.viewers.symbol.*"
 		 >
 	<fx:Script>
 		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import JsC.events.JEvent;
 			import JsC.events.MotionEvent;
+			
+			
+			private const nScaleMax:uint = 4;
+			
+			private function onJEvent(event:Event):void
+			{
+				switch(event.type)
+				{
+					case JEvent.CORRECT:
+						solid.color = 0x00ffff
+						effectTip.play()
+						break;
+					case JEvent.WRONG:
+						solid.color = 0xff0000
+						effectTip.play()
+						break
+					case JEvent.SELECT:
+						effectFast.play()
+						break
+				}
+				
+			}
+			
 		]]>
 	</fx:Script>
+	
 	<s:states>
 		<s:State name="onMouseUP"/>
 		<s:State name="onMouseDW"/>
@@ -21,15 +47,25 @@
 		[Event(name="MOVINGOUT", type="JsC.events.MotionEvent")]
 		[Event(name="MOVE_END", type="JsC.events.MotionEvent")]
 		
-		[Event(name="ADDED_TO_TARGET", type="JsC.events.GameEvent")]
-		[Event(name="ADDED_TO_SOURCE", type="JsC.events.GameEvent")]
-		[Event(name="DRAG_START", type="JsC.events.GameEvent")]
+		[Event(name="ADDED_TO_TARGET", type="JsC.events.JGameStateEvent")]
+		[Event(name="ADDED_TO_SOURCE", type="JsC.events.JGameStateEvent")]
+		[Event(name="DRAG_START", type="JsC.events.JGameStateEvent")]
+		
+		[Event(name="CORRECT", type="JsC.events.JEvent")]
+		[Event(name="SELECT", type="JsC.events.JEvent")]
+		[Event(name="WRONG", type="JsC.events.JEvent")]
+		[Event(name="READY", type="JsC.events.JEvent")]
 	</fx:Metadata>
 	
 	<s:creationComplete>
 		<![CDATA[
 		/** return Source*/
 		addEventListener(MotionEvent.MOVINGOUT,function(event:MotionEvent):void{enabled=false;moveOut.play()})
+		
+		addEventListener(JEvent.CORRECT,onJEvent)
+		addEventListener(JEvent.WRONG,onJEvent)
+		addEventListener(JEvent.SELECT,onJEvent)
+		addEventListener(JEvent.READY,function():void{solid.color = 0xffffff})
 		]]>
 	</s:creationComplete>
 	
@@ -49,11 +85,35 @@
 				<s:Fade alphaTo="1" duration="0"/>
 			</s:Parallel>
 		</s:Sequence>
+		
+		
+		<s:Sequence id="effectTip" target="{img1}">
+			<s:Parallel>
+				<s:Fade alphaFrom="0" alphaTo="0.7" duration="700" easer="{easer1}"/>
+				<s:Scale scaleXFrom="1" scaleYFrom="1" scaleXTo="1.2" scaleYTo="1.2" duration="700" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
+			</s:Parallel>
+			<s:Parallel>
+				<s:Fade startDelay="100" alphaFrom="0.7" alphaTo="0" duration="700" easer="{easer1}"/>
+				<s:Scale scaleXTo="1.5" scaleYTo="1.5" duration="700" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
+			</s:Parallel>
+		</s:Sequence>
+		
+		<s:Sequence id="effectFast" target="{img2}">
+			<s:Parallel>
+				<s:Fade alphaFrom="0" alphaTo="0.7" duration="700" easer="{easer1}"/>
+				<s:Scale scaleXFrom="1" scaleYFrom="1" scaleXTo="1.2" scaleYTo="1.2" duration="700" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
+			</s:Parallel>
+			<s:Parallel>
+				<s:Fade startDelay="100" alphaFrom="0.7" alphaTo="0" duration="700" easer="{easer1}"/>
+				<s:Scale scaleXTo="1.5" scaleYTo="1.5" duration="700" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
+			</s:Parallel>
+		</s:Sequence>
 	</fx:Declarations>
 	
 	
 	<fx:Declarations>
-		<fx:String id="text"/>
+		<fx:String id="$text"/>
+		<fx:String id="$num"/>
 	</fx:Declarations>
 	
 	
@@ -62,6 +122,8 @@
 		<s:Bounce id="easer2"/>
 		<filters:ProjectDropShadow id="shadow"/>
 		<filters:ProjectFilterGlow_Text id="glow" color="0x3c4d2e"/>
+		<filters:ProjectFilterGlow_icon id="glow2" />
+		<s:Power id="easerPower"/>
 	</fx:Declarations>
 	
 	
@@ -71,33 +133,35 @@
 			<s:Sequence target="{mybody}" >
 				<s:Sequence repeatCount="1">
 					<s:Parallel >
-						<s:Scale scaleXTo="2.5" scaleYTo="2.5" duration="200" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
+						<s:Scale scaleXTo="{nScaleMax}" scaleYTo="{nScaleMax}" duration="200" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
 					</s:Parallel>
 				</s:Sequence>
 				<s:Sequence repeatCount="0">
 					<s:Parallel>
-						<s:Scale scaleXTo="2" scaleYTo="2" duration="2000" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
+						<s:Scale scaleXTo="{nScaleMax-1}" scaleYTo="{nScaleMax-1}" duration="2000" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
 					</s:Parallel>
 					<s:Parallel>
-						<s:Scale scaleXTo="2.5" scaleYTo="2.5" duration="2000" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
+						<s:Scale scaleXTo="{nScaleMax}" scaleYTo = "{nScaleMax}" duration="2000" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
 					</s:Parallel>
 				</s:Sequence>
 			</s:Sequence>
 		</s:Transition>
 		
-		<s:Transition fromState="onMouseDW" toState="onDropIn">
-			<s:Sequence>
-				<s:Parallel target="{mybody}" effectEnd="currentState = 'onMouseUP'">
-					<s:Fade target="{bg}" alphaTo="0" duration="400" easer="{easer1}"/>
-					<s:Scale  scaleXFrom="2" scaleYFrom="2" scaleXTo="1" scaleYTo="1" duration="300" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer2}"/>
+	
+		<s:Transition fromState="onMouseUP" toState="onDropIn">
+			<s:Sequence target="{mybody}" effectEnd="currentState='onMouseUP'" >
+				<s:Parallel>
+					<s:Fade target="{solid}" duration="400" easer="{easer1}"/>
+					<s:Scale target="{mybody}" scaleXFrom="2" scaleYFrom="2" scaleXTo="1" scaleYTo="1" duration="300" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer2}"/>
 				</s:Parallel>
 			</s:Sequence>
 		</s:Transition>
 		
-		<s:Transition fromState="onMouseUP" toState="onDropIn">
-			<s:Sequence target="{mybody}" effectEnd="currentState = 'onMouseUP';">
+		<s:Transition fromState="onMouseDW" toState="onDropIn">
+			<s:Sequence target="{mybody}" effectEnd="currentState='onMouseUP'" >
 				<s:Parallel>
-					<s:Scale scaleXFrom="2" scaleYFrom="2" scaleXTo="1" scaleYTo="1" duration="300" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer2}"/>
+					<s:Fade target="{solid}" duration="400" easer="{easer1}"/>
+					<s:Scale target="{mybody}" scaleXFrom="2" scaleYFrom="2" scaleXTo="1" scaleYTo="1" duration="300" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer2}"/>
 				</s:Parallel>
 			</s:Sequence>
 		</s:Transition>
@@ -105,15 +169,23 @@
 	</s:transitions>
 	
 	
-	<fx:Style source="projectSkin/css/bible.css"/>
+	
 	
 	<s:SparkSkin left="0" right="0" top="0" bottom="0" id="mybody" filters.onMouseDW="{[shadow]}" cacheAsBitmap="true">
-		<s:Rect left="0" right="0" bottom="0" top="0" includeIn="onMouseDW,onDropIn" radiusX="2" alpha="0" alpha.onMouseDW="0.4" id="bg">
+		<s:Rect left="0" right="0" bottom="0" top="0" excludeFrom="onMouseUP" radiusX="2">
 			<s:fill>
-				<s:SolidColor color="#ffffff" />
+				<s:SolidColor id="solid" 
+							  color="#ffffff"
+							  alpha="0" alpha.onMouseDW="0.2"  />
 			</s:fill>
 		</s:Rect>
-		<s:Label verticalAlign="middle" paddingTop="2" paddingBottom="2" paddingLeft="2" paddingRight="2" styleName="exercise_btn" text="{text}" width="100%" height="100%" />
+		<s:Label verticalAlign="middle" paddingTop="2" paddingBottom="2" paddingLeft="2" paddingRight="2" styleName="exercise_btn" text="{$text}" width="100%" height="100%" />
+		<s:Label text="{$num}" styleName="exercise_btnNum" bottom="-2" left="0" paddingRight="2" right="-2"/>
+		
+		<s:Group left="0" right="0" top="0" bottom="0" mouseEnabled="false" mouseChildren="false">
+			<symbol:Image_exercise_tips id="img1" width="{width*0.6}" height="{height*0.6}" alpha="0" filters="{[glow2]}" excludeFrom="onMouseUP" verticalCenter="0" horizontalCenter="0"/>
+			<symbol:Image_exercise_fast id="img2" width="{width}" height="{height}" alpha="0" filters="{[glow2]}" includeIn="onMouseUP" verticalCenter="0" horizontalCenter="0"/>
+		</s:Group>
 	</s:SparkSkin>
 	
 </s:Group>

@@ -9,12 +9,14 @@ package projectComponents.bible.act
 	import projectComponents.bible.ctrl.DataLoader;
 	import projectComponents.bible.viewers.panel.BibleReader;
 	
+	
+	
 	public class ActMain_Bible extends ActMain_Bible_Base
 	{
 		/**
 		 * 
 		 * ActBibleReader
-		 * 
+		 *  
 		 */	
 		protected var view:BibleReader;
 		
@@ -25,11 +27,13 @@ package projectComponents.bible.act
 			view.addEventListener(FlexEvent.CREATION_COMPLETE,onFlexEvent)
 		}
 		
+		
 		protected function onFlexEvent(event:FlexEvent):void
 		{
 			switch(event.type)
 			{
 				case FlexEvent.CREATION_COMPLETE:
+					
 					__sqlProject = new DataLoader
 					__sqlProject.addEventListener(JEvent.COMPLETE,onProjectEvent)
 					break;

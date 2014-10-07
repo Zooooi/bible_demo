@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" styleName="volumeCurrent" xmlns:o="projectClass.vo.o.*" xmlns:filters="projectSkin.filters.*"
+		 width.close="{minWidth}" width.open="{maxWidth}"
+		 >
+	<s:states>
+		<s:State name="close"/>
+		<s:State name="open"/>
+	</s:states>
+	<fx:Script>
+		<![CDATA[
+			import projectClass.vo.v.Config;
+			
+			import projectComponents.bible.vo.BibleOB;
+			
+			[Bindable]private var _data:BibleOB;
+			[Bindable]private var myText:String;
+			
+			public function set $data(_value:BibleOB):void
+			{
+				_data = _value
+				myText = (_data.nChapterLength ==0)? "": _data.nChapter + " / " + _data.nChapterLength
+			}
+			public function get $data():BibleOB
+			{
+				return _data
+			}
+		]]>
+	</fx:Script>
+
+	<s:transitions>
+		<s:Transition fromState="close" toState="open" autoReverse="true">
+			<s:Parallel>
+			<s:Resize target="{this}" duration="500" easer="{easeResize}"/>
+				<s:Fade target="{controller}" duration="400" startDelay.close="150" startDelay.open="20"/>
+			</s:Parallel>
+		</s:Transition>
+	</s:transitions>	
+	
+	<fx:Declarations>
+		<filters:ProjectFilterGlow_icon id="glow" color="#ffddcc"/>
+		<filters:ProjectFilterGlow_icon id="glow2" color="#ffffff" blurX="6"/>
+		<s:Power id="easeResize"/>
+	</fx:Declarations>
+	<s:BitmapImage source="@Embed('/assets/imgs/bible/chapter/volume_name1.png')" smooth="true" height="{height}" width="10"/>
+	<s:BitmapImage source="@Embed('/assets/imgs/bible/chapter/volume_name2.png')" smooth="true" height="{height}" width="1" left="5" right="16"/>
+	<s:BitmapImage source="@Embed('/assets/imgs/bible/chapter/volume_name3.png')"  smooth="true" height="{height}" width="17" right="0"/>
+	
+	<s:Group bottom="-10" right="4" filters="{[glow]}" click.close="currentState = 'open'" click.open="currentState = 'close'">
+		<s:BitmapImage source.close="@Embed('/assets/imgs/bible/icon/bible_menu1.png')"  
+					   source.open="@Embed('/assets/imgs/bible/icon/bible_menu2.png')"
+					   smooth="true" height="60" width="33" left="0" bottom="0" />
+	</s:Group>
+	
+	<s:HGroup left="0" right="35" top="0" bottom="0" verticalAlign="middle" gap="10" horizontalAlign="center" includeIn="open" id="controller"  clipAndEnableScrolling="true">
+		<s:Label styleName="version" text="{Config.versionInfo + Config.version}"/>
+		<!--<s:Button skinClass="projectSkin.skin.Button_menu_book" width="40" height="40"/>
+		<s:Button skinClass="projectSkin.skin.Button_menu_search" width="40" height="40"/>
+		<s:Button skinClass="projectSkin.skin.Button_menu_game" width="40" height="40"/>
+		<s:Button skinClass="projectSkin.skin.Button_menu_goldsentent" width="40" height="40"/>
+		<s:Button skinClass="projectSkin.skin.Button_menu_questionMark" width="40" height="40"/>-->
+	</s:HGroup>
+</s:Group>

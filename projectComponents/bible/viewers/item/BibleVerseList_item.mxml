@@ -4,65 +4,96 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:vo="projectClass.vo.*" xmlns:o="projectClass.vo.o.*"
 		 styleName="bibleItem"  xmlns:style="projectComponents.bible.viewers.style.*"
 		 width="100%" xmlns:ns="http://flex.apache.org/experimental/ns"
-		 currentState="normal" xmlns:symbol="projectComponents.bible.viewers.symbol.*"
+		 currentState="normal" xmlns:symbol="projectComponents.bible.viewers.symbol.*" xmlns:vo1="projectComponents.bible.vo.*"
 		 
 		 >
 	
 	<fx:Metadata>
+		/** onSelect */
 		[Event(name="SELECT", type="JsC.events.JEvent")]
-		[Event(name="NEWGAME", type="JsC.events.JEvent")]
 		
+		[Event(name="down", type="JsC.events.JState")]
+		
+		/** popup exercise */
+		[Event(name="NEWGAME", type="JsC.events.JEvent")] 
+		
+		/** add to Game List */
+		[Event(name="ITEM_ADDED", type="JsC.events.JEvent")]
 	</fx:Metadata>
+	
 	<fx:Script>
 		<![CDATA[
 			import JsC.events.JEvent;
+			
+			private var bSelect:Boolean
+			public function onSelect():void
+			{
+				if (!bSelect)
+				{
+					iconSelect_Move.play()
+					iconGr.addElement(iconSelect)
+				}else{
+					iconGr.removeAllElements()
+				}
+				bSelect = !bSelect
+			}
 		]]>
 	</fx:Script>
 	
 	<fx:Declarations>
-		<o:BibleOB id="$data"/>
+		<vo1:BibleOB id="$data"/>
 		<s:Power id="easerPower" easeInFraction="0.5"/>
 		<s:Bounce id="easerElastic" />
+		
+		<symbol:IconChecked id="iconSelect" width="20" height="20" alpha="1" alpha.normal="0"/>
+		
+		<s:Parallel id="iconSelect_Move">
+			<s:Resize widthFrom="0" widthTo="20" duration="1000"/>
+		</s:Parallel>
 	</fx:Declarations>
+	
 	
 	<s:states>
 		<s:State name="normal"/>
+		<s:State name="down"/>
 		<s:State name="selected"/>
 	</s:states>
 	
-	<fx:Style source="projectSkin/css/bible.css"/>
+	
 	
 	<s:transitions>
-		<s:Transition autoReverse="true" fromState="normal" toState="selected">
+		<s:Transition autoReverse="true" fromState="normal" toState="down">
 			<s:Sequence>
-				<s:Parallel >
-					<s:Fade duration="300" easer="{easerPower}" targets="{[rectBackground]}"/>
-					<s:Resize duration="300" easer="{easerPower}" targets="{[title,iconGr]}"/>
-					<s:Move duration="300" easer="{easerPower}" target="{iconSelect}" startDelay="200" />
-					
-					<s:Fade duration="300" easer="{easerPower}" targets="{[grController]}" startDelay.selected="0" startDelay.normal="100"/>
-					<s:Rotate angleFrom="0" angleTo="-30" duration="600" easer="{easerElastic}" target="{btnGame}" startDelay.selected="0" startDelay.normal="100" autoCenterTransform="true"/>
+				<s:Parallel>
+					<s:Parallel>
+						<s:Fade duration="300" easer="{easerPower}" targets="{[rectBackground]}"/>
+						<s:Resize duration="300" easer="{easerPower}" targets="{[title]}"/>
+						<s:Fade duration="300" easer="{easerPower}" targets="{[grController]}" startDelay.down="0" startDelay.normal="100"/>
+						<s:Rotate angleFrom="0" angleTo="-30" duration="600" easer="{easerElastic}" target="{btnGame}" startDelay.down="0" startDelay.normal="100" autoCenterTransform="true"/>
+					</s:Parallel>
 				</s:Parallel>
 			</s:Sequence>
 		</s:Transition>
-		
 	</s:transitions>
+	
+	
 	
 	<s:Group left="4" right="4">
 		<s:Group id="btn" width="100%" height="100%">
 			<style:RectBibleVerseList_item width="100%" height="100%"/>
 		</s:Group>
 		<s:VGroup left="0" right="0" gap="0">
-			<s:Group id="title" width="100%" height.normal="18" height.selected="38" cacheAsBitmap="true" mask="{myMask}">
-				<style:RectBibleVerseList_label_item id="rectBackground" height="100%" width="100%" alpha.normal="0.1" alpha.selected="1"/>
+			<s:Group id="title" width="100%" height.normal="18" height.down="38" cacheAsBitmap="true" mask="{myMask}">
+				<style:RectBibleVerseList_label_item id="rectBackground" height="100%" width="100%" alpha.normal="0.1" alpha.down="1"/>
 				<s:HGroup top="5" left="5" right="5" verticalCenter="0" verticalAlign="middle" gap="0">
-					<s:Group width="0" id="iconGr" width.selected="20" height="20">
-						<symbol:IconChecked id="iconSelect" width="20" height="20" x.normal="-30" x.selected="0"/>
-					</s:Group>
+					<s:HGroup id="iconGr" width="0">
+						
+					</s:HGroup>
 					<s:Label styleName="title" text="{$data.sTitle}"/>
 					
-					<s:HGroup id="grController" horizontalAlign="right" width="100%" includeIn="selected">
-						<s:Button id="btnGame" skinClass="projectSkin.skin.Button_itemVerse_Game" width="42" height="23" click="dispatchEvent(new JEvent(JEvent.NEWGAME))" mouseEnabled.normal="false" mouseEnabled.selected="true"/>
+					<s:HGroup id="grController" horizontalAlign="right" verticalAlign="middle" width="100%" includeIn="down" paddingRight="5">
+						<s:Button id="btnGame" skinClass="projectSkin.skin.Button_itemVerse_Game" width="42" height="23" click="dispatchEvent(new JEvent(JEvent.NEWGAME))" mouseEnabled.normal="false" mouseEnabled.down="true"/>
+						<!--<s:Button id="btnAdd" skinClass="projectSkin.skin.Button_Add" width="20" height="20" click="onSelect()" mouseEnabled.normal="false" mouseEnabled.down="true"/>-->
 						<!--<s:Button skinClass="projectSkin.skin.Button_itemVerse_Favorite" width="25" height="25" />-->
 					</s:HGroup>
 				</s:HGroup>

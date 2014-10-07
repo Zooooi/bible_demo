@@ -6,19 +6,19 @@ package projectComponents.bible.act.panel
 	import mx.events.FlexEvent;
 	
 	import JsC.events.JEvent;
-	
-	import projectClass.vo.o.BibleOB;
+	import JsC.mvc.VO;
 	
 	import projectComponents.bible.act.ActMain_Bible_Base;
 	import projectComponents.bible.mdel.CreateChapterModel;
-	import projectComponents.bible.viewers.panel.BibleSelectVolume;
+	import projectComponents.bible.viewers.panel.BibleSelectVolume_platform;
+	import projectComponents.bible.vo.BibleOB;
 	
 	[Event(name="SEND", type="JsC.events.JEvent")]
 	
 	
 	public class ActPanel_BibleSelectVolume extends ActMain_Bible_Base
 	{
-		private var chapterPanel:BibleSelectVolume
+		private var chapterPanel:BibleSelectVolume_platform
 		private var currentVo:BibleOB
 		private var myVo:BibleOB
 		private var crChapterMdel:CreateChapterModel
@@ -26,21 +26,20 @@ package projectComponents.bible.act.panel
 		public function ActPanel_BibleSelectVolume(_vi:UIComponent=null)
 		{
 			super(_vi);
-			chapterPanel = BibleSelectVolume(_vi)
+			chapterPanel = BibleSelectVolume_platform(_vi)
 			chapterPanel.addEventListener(JEvent.CHANGE,onViewChangeEvent)
 			chapterPanel.addEventListener(JEvent.SEND,onViewSendEvent)
 				
 			myVo = new BibleOB
 			crChapterMdel = new CreateChapterModel
 				
-			addEventListener(JEvent.DESTORY,function(event:JEvent):void{
+			_destory_From_View(_vi,function(event:JEvent):void{
 				removeEventListener(event.type,arguments.callee)
 				chapterPanel = null
 				currentVo = null
 				myVo = null
 				crChapterMdel = null
 			})
-			_destory_From_View(_vi)
 		}
 		
 		protected function onViewSendEvent(event:Event):void
@@ -51,9 +50,9 @@ package projectComponents.bible.act.panel
 		}	
 		
 		
-		override public function _addEvent(_value:JEvent):void
+		override public function _addVO(_value:VO):void
 		{
-			currentVo = BibleOB(_value._data)
+			currentVo = BibleOB(_value)
 		}
 		
 		

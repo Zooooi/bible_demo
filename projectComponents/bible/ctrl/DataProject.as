@@ -16,7 +16,7 @@ package projectComponents.bible.ctrl
 		{
 			super()
 			sFile = FilesVO.file_project
-			addInitSQL("bible_langage","select name,sc from bible_langage")
+			addInitSQL("bible_langage","select name,"+Config.language+" from bible_langage")
 			addInitSQL("bible_version","select * from bible_version")
 		}
 		
@@ -28,9 +28,11 @@ package projectComponents.bible.ctrl
 					language = new VO
 					for (var i:int = 0; i < event.data.length; i++) 
 					{
+						
 						var _name:String =  event.data[i].name
 						var _value:String = event.data[i][Config.language]
 						language[_name] = _value
+						trace(_name,_value)
 					}
 					new LanVO(language)
 					break;

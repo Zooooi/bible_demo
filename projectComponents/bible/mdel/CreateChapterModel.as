@@ -6,7 +6,7 @@ package projectComponents.bible.mdel
 	
 	import JsC.mvc.Model;
 	
-	import projectClass.vo.o.BibleOB;
+	import projectComponents.bible.vo.BibleOB;
 	import projectClass.vo.v.BibleVA;
 	
 	public class CreateChapterModel extends Model

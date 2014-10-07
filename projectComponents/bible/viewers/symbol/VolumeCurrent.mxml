@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" styleName="volumeCurrent" xmlns:o="projectClass.vo.o.*"
+		 xmlns:s="library://ns.adobe.com/flex/spark" styleName="volumeCurrent" xmlns:o="projectClass.vo.o.*" xmlns:style="projectComponents.bible.viewers.style.*"
+		 horizontalCenter="0" xmlns:filters="projectSkin.filters.*"
 		 >
-	<fx:Style source="projectSkin/css/bible.css"/>
+	
 	<fx:Script>
 		<![CDATA[
-			import projectClass.vo.o.BibleOB;
+			import projectClass.vo.v.BibleStyle;
+			
+			import projectComponents.bible.vo.BibleOB;
 			
 			[Bindable]private var _data:BibleOB;
 			[Bindable]private var myText:String;
@@ -21,9 +24,13 @@
 			}
 		]]>
 	</fx:Script>
-	<s:BitmapImage source="@Embed('/assets/imgs/bible/chapter/volume_name.png')" smooth="true" height="100%" width="100%"/>
-	<s:VGroup width="100%" top="0" bottom="0" verticalAlign="middle" gap="2" >
-		<s:Label text="{_data.sTitle}" styleName="text1" width="100%" paddingLeft="6" />
-		<s:Label text="{myText}" styleName="text2" width="100%" paddingLeft="6" />
-	</s:VGroup>
+	<fx:Declarations>
+		<filters:ProjectFilterGlow_Text id="glow" color="{BibleStyle.color23}" strength="4" blurX="5"/>
+	</fx:Declarations>
+	<style:RectButtonMenuTitle top="-30" bottom="-1" width="100%" radiusX="12"/>
+	<s:HGroup left="0" right="0" verticalAlign="middle" gap="10" horizontalAlign="center" verticalCenter="0" filters="{[glow]}" >
+		<s:Button skinClass="projectSkin.skin.Button_menu_jumpTo" width="22" height="22"/>
+		<s:Label text="{_data.sTitle}" styleName="text1" verticalAlign="middle"/>
+		<s:Label text="{myText}" styleName="text2" verticalAlign="middle" />
+	</s:HGroup>
 </s:Group>

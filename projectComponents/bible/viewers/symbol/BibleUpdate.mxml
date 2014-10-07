@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:style="projectComponents.bible.viewers.style.*"
+		 left="0" right="0" top="0" bottom="0" xmlns:vo="projectComponents.bible.vo.*" xmlns:filters="projectSkin.filters.*"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import flash.net.navigateToURL;
+			
+			import JsC.events.JEvent;
+			
+			import projectSkin.skin.Button_Close;
+			
+			[Bindable] private var bHide:Boolean = true;
+			
+			protected function onClick(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest(data.file))
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<vo:VersionUpdateVO id="data"/>
+		<filters:ProjectFilterGlow_icon id="glow" color="0x000000" blurX="7" blurY="7" alpha="0.8"/>
+		<filters:ProjectFilterGlow_icon id="glow2" color="0xf0f0f0" blurX="7" blurY="7" />
+		
+		<s:Sequence id="buttonEffect" target="{btn}" duration="1000" startDelay="2000" repeatCount="0" repeatDelay="0">
+			<s:Parallel>
+				<s:Scale scaleXFrom="1" scaleYFrom="1" scaleXTo="1.2" scaleYTo="1.2" duration="2000" autoCenterTransform="true" applyChangesPostLayout="true"/>
+				<s:Fade duration="400" alphaFrom="1" alphaTo="0.8"  />
+			</s:Parallel>
+			<s:Parallel>
+				<s:Scale scaleXFrom="1.2" scaleYFrom="1.2" scaleXTo="1" scaleYTo="1" duration="2000" autoCenterTransform="true" applyChangesPostLayout="true"/>
+				<s:Fade duration="400" alphaFrom="0.8" alphaTo="1"/>
+			</s:Parallel>
+		</s:Sequence>
+	</fx:Declarations>
+	<s:initialize>
+		<![CDATA[
+		buttonEffect.play()
+		]]>
+	</s:initialize>
+	
+	<style:RectButtonMenuNumber width="100%" height="100%" radiusX="0" alpha="0.8"/>
+	<style:RectButtonMenuTitle width="100%" height="30"/>
+	<s:Button skinClass="projectSkin.skin.Button_Close" right="5" top="2" width="25" height="25"  click="dispatchEvent(new JEvent(JEvent.REMOVE))"/>
+	
+	<s:BusyIndicator width="20" height="20" horizontalCenter="0" verticalCenter="0" visible="{bHide}"/>
+	<s:VGroup horizontalCenter="0" verticalCenter="0" horizontalAlign="center"  visible="{!bHide}" gap="10">
+		<s:Image source="{data.icon}" width="120" height="120" complete="bHide = false;" smooth="true" filters="{[glow]}"/>
+		<s:HGroup verticalAlign="middle" horizontalAlign="center" filters="{[glow]}" gap="12">
+			<s:Label styleName="updatePanel_oldVersion" text="{data.old_version}"/>
+			<s:Image source="@Embed('/assets/imgs/bible/icon/update_panel_updateto.svg')" width="30" height="30" smooth="true"/>
+			<s:Label styleName="updatePanel_newVersion" text="{data.new_version}"/>
+		</s:HGroup>
+		<s:Group width="100" height="100" filters="{[glow2]}">
+			<s:Button id="btn" skinClass="projectSkin.skin.Button_Download" horizontalCenter="0" verticalCenter="0"  height="60" width="60" click="onClick(event)"/>
+		</s:Group>
+	</s:VGroup>
+	
+</s:Group>

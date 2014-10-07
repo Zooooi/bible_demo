@@ -1,47 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="JsF.components.*"
-		 top="0" bottom="0" left="0" right="0" xmlns:viewers="projectComponents.bible.viewers.*" xmlns:symbol="projectComponents.bible.viewers.symbol.*" xmlns:style="projectComponents.bible.viewers.style.*" xmlns:viewer="JsF.components.scroller.viewer.*"
-		 >
-	
-	<s:states>
+<ext:JGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			xmlns:s="library://ns.adobe.com/flex/spark" 
+			xmlns:ext="JsF.ext.*"
+			top="0" bottom="0" left="0" right="0" xmlns:viewers="projectComponents.bible.viewers.*" xmlns:symbol="projectComponents.bible.viewers.symbol.*" xmlns:style="projectComponents.bible.viewers.style.*" xmlns:ext2="JsF.components.scroller.ext.*"
+			>
+	<ext:states>
 		<s:State name="bible"/>
 		<s:State name="selected"/>
 		<s:State name="popup"/>
-	</s:states>
+	</ext:states>
 	
+	
+	<fx:Metadata>
+		[Event(name="HOME", type="JsC.events.JState")]
+		[Event(name="POPUP", type="JsC.events.JState")]
+	</fx:Metadata>
+	
+	<ext:preinitialize>
+		<![CDATA[
+			addEventListener(JState.HOME,function(event:JState):void{myMenu.currentState = JState.close})
+		]]>
+	</ext:preinitialize>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import JsC.events.JState;
+			private const cLeft:uint = 40;
+			private const cContentTop:uint = 53;
+			private const cMenuH:uint = 55
+			private const cCurrentH:uint = 27;
+		]]>
+	</fx:Script>
 	<fx:Declarations>
 		<s:Power id="easerPower" easeInFraction="0.5"/>
 	</fx:Declarations>
 	
-	<s:transitions>
-		<s:Transition autoReverse="true" fromState="bible" toState="selected">
-			<s:Sequence>
-				<s:Parallel >
-					<s:Resize duration="300" easer="{easerPower}" targets="{[$scroller]}"/>
-					<s:Move duration="300" easer="{easerPower}" targets="{[$bottomBar]}"/>
-				</s:Parallel>
-			</s:Sequence>
-		</s:Transition>
-	</s:transitions>
+	
+	<fx:Style source="projectSkin/css/bible.css"/>
 	
 	
 	<style:RectBackground_BibleReader height="100%" width="100%" radiusX="0" excludeFrom="popup"/>
-	
-	<s:Group top="0" bottom="0" width="100%">
-		
-		<!-- chaptermenu -->
-		<s:Group id="chapter" height="55" left="0" right="0" >
-			<style:RectMenuBG radiusX="7" height="100%" width="100%" top="0" bottom="1" />
-			<symbol:JScrollerH2 id="$menu" width="100%" height="100%" left="90" right="-2"/>
-			<symbol:VolumeCurrent id="$volume" left="0" height="100%" width="100" top="-2" />
-			<s:Button skinClass="projectSkin.skin.Button_MainMenu" width="24" height="24" left="1" verticalCenter="-2"/>
-		</s:Group> 
-		
+	<s:Group top="0" bottom="0" width="100%" excludeFrom="popup" >
 		<!-- content -->
-		<viewer:JcScrollerV id="$scroller" width="100%" top="60" bottom.bible="2" bottom.selected="40" excludeFrom="popup"/>
+		<s:Group top="{cContentTop}" left="0" right="0"  bottom.bible="2" bottom.selected="40" >
+			<symbol:VolumeCurrent id="$volume" height="{cCurrentH}" minWidth="{cLeft}" left="0" right="0"/>
+			<symbol:JScrollerV2 id="$scroller" width="100%" top="{cCurrentH+1}" bottom="0" excludeFrom="popup"/>
+		</s:Group>
 		
+		<!-- menu -->
+		<s:Group id="chapter" height="{cMenuH}" left="0" right="-1" top="0" >
+			<style:RectMenuBG radiusX="7" height="100%" width="100%" top="0" bottom="1" />
+			<symbol:JScrollerH2 id="$menu" width="100%" height="100%" left="{cLeft-12}" right="-3"/>
+			<symbol:BibleMenu id="myMenu" height="100%" minWidth="{cLeft}" maxWidth="{this.width}"/>
+		</s:Group> 
 		
 		<!-- bottom -->
 		<style:RectButtonMenuLabel id="$bottomBar" width="100%" height="40" includeIn="selected" bottom.bible = "-40" bottom.selected="0" radiusX="0" />
@@ -49,4 +61,4 @@
 	
 	
 	<s:Group id="$container" top="0" bottom="0" left="0" right="0" />
-</s:Group>
+</ext:JGroup>

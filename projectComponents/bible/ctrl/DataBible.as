@@ -3,7 +3,7 @@ package projectComponents.bible.ctrl
 	import JsA.data.SQLiteCtrl;
 	import JsA.data.SQLiteEvent;
 	
-	import projectClass.vo.o.BibleOB;
+	import projectComponents.bible.vo.BibleOB;
 	import projectClass.vo.v.BibleVA;
 	import projectClass.vo.v.LanVO;
 	

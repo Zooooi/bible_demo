@@ -2,8 +2,35 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:style="projectComponents.bible.viewers.style.*"
-		 styleName="exercise_rect"
+		 xmlns:filters="projectSkin.filters.*" xmlns:symbol="projectComponents.bible.viewers.symbol.*"
 		 >
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import JsC.events.JEvent;
+			
+			private function onJEvent(event:JEvent):void
+			{
+				
+				if (event.kind == "tips")
+				{
+				}else{
+					switch(event.type)
+					{
+						case JEvent.CORRECT:
+							currentState = "right";
+							break;
+						case JEvent.WRONG:
+							currentState = "wrong"
+							break
+					}
+					effectCompare.play()
+				}
+			}
+			
+		]]>
+	</fx:Script>
 	<s:states>
 		<s:State name="normal"/>
 		<s:State name="over"/>
@@ -11,14 +38,63 @@
 		<s:State name="right"/>
 		<s:State name="freeze"/>
 	</s:states>
-
-	<fx:Style source="projectSkin/css/bible.css"/>
+	
+	
 	<fx:Declarations>
 		<fx:int id="$num"/>
 		<fx:String id="$text"/>
+		<s:Bounce id="easer1"/>
+		
+		<s:Sequence id="effectCompare" target="{img2}">
+			<s:Parallel>
+				<s:Fade alphaFrom="0" alphaTo="0.7" duration="700" easer="{easer1}"/>
+				<s:Scale scaleXFrom="1" scaleYFrom="1" scaleXTo="1.2" scaleYTo="1.2" duration="700" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
+			</s:Parallel>
+			<s:Parallel>
+				<s:Fade startDelay="100" alphaFrom="0.7" alphaTo="0" duration="700" easer="{easer1}"/>
+				<s:Scale scaleXTo="1.5" scaleYTo="1.5" duration="700" autoCenterTransform="true" applyChangesPostLayout="true" easer="{easer1}"/>
+			</s:Parallel>
+		</s:Sequence>
+		<filters:ProjectFilterGlow_icon id="glow" />
 	</fx:Declarations>
 	
-	<s:SparkSkin left="0" right="0" top="0" bottom="0">
+	<fx:Metadata>
+		[Event(name="REMOVED", type="JsC.events.JEvent")]
+		[Event(name="CHECK", type="JsC.events.JEvent")]
+		
+		[Event(name="CORRECT", type="JsC.events.JEvent")]
+		[Event(name="WRONG", type="JsC.events.JEvent")]
+		[Event(name="READY", type="JsC.events.JEvent")]
+		
+	</fx:Metadata>
+	
+	<s:preinitialize>
+		<![CDATA[
+		addEventListener(JEvent.CORRECT,onJEvent)
+		addEventListener(JEvent.WRONG,onJEvent)
+		addEventListener(JEvent.READY,function():void{currentState = "normal"})
+		]]>
+	</s:preinitialize>
+	
+	<s:transitions>
+		<s:Transition autoReverse="true" fromState="normal" toState="right">
+			<s:Sequence>
+				<s:Parallel>
+					<s:Fade duration="500" easer="{easer1}" targets="{[rect]}"/>
+				</s:Parallel>
+			</s:Sequence>
+		</s:Transition>
+		
+		<s:Transition autoReverse="true" fromState="normal" toState="wrong">
+			<s:Sequence>
+				<s:Parallel >
+					<s:Fade duration="500" easer="{easer1}" targets="{[rect]}"/>
+				</s:Parallel>
+			</s:Sequence>
+		</s:Transition>
+	</s:transitions>
+	
+	<s:SparkSkin left="0" right="0" top="0" bottom="0" cacheAsBitmap="true">
 		
 		<s:Rect left="0" right="0" bottom="1" includeIn="normal" >
 			<s:stroke>
@@ -27,17 +103,19 @@
 		</s:Rect>
 		
 		
-		<s:Rect left="0" right="0" bottom="0" top="0" includeIn="normal,freeze" radiusX="2" >
+		<s:Rect left="0" right="0" bottom="0" top="0" radiusX="2" >
 			<s:fill>
-				<s:SolidColor color="#ffffff" alpha="0.08" alpha.freeze="0.03"/>
+				<s:SolidColor id="rect" color="#ffffff" color.right="#00ffff" color.wrong="#ff0000" alpha.right="0.5" alpha.wrong="0.5" alpha="0.08" alpha.freeze="0.03" />
 			</s:fill>
 		</s:Rect>
 		
-		<s:Label text="{$num.toString()}" bottom="1" left="0" paddingRight="2" right="1" excludeFrom="freeze"/>
+		<s:Label text="{$num.toString()}" styleName="exercise_rect" bottom="1" left="0" paddingRight="2" right="1" excludeFrom="freeze"/>
 		
 	</s:SparkSkin>
 	
-	<s:Group id="$content" verticalCenter="0" horizontalCenter="0">
-		
+	<s:Group id="$content" verticalCenter="0" horizontalCenter="0" />
+	
+	<s:Group left="0" right="0" top="0" bottom="0" mouseEnabled="false" mouseChildren="false">
+		<symbol:Image_exercise_compare id="img2" width="{width*0.6}" height="{height*0.6}" smooth="true" alpha="0" filters="{[glow]}" excludeFrom="normal"  horizontalCenter="0" verticalCenter="0"/>
 	</s:Group>
 </s:Group>

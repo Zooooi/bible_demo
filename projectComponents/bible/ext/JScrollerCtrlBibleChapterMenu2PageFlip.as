@@ -5,7 +5,7 @@ package projectComponents.bible.ext
 	
 	import JsF.components.scroller.act.JScrollerActBase;
 	
-	import projectClass.vo.o.BibleOB;
+	import projectComponents.bible.vo.BibleOB;
 	import projectClass.vo.v.BibleVA;
 	
 	import projectComponents.bible.ctrl.DataBibleController;

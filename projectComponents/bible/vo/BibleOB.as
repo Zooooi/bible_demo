@@ -1,4 +1,4 @@
-package projectClass.vo.o
+package projectComponents.bible.vo
 {
 	import JsC.mvc.VO;
 	

@@ -8,5 +8,5 @@
 		</style:stroke>
 	</style:RectButtonMenuLabel>
 	<s:BitmapImage source="@Embed('/assets/imgs/bible/button/checked.svg')" smooth="true" width="100%" height="100%"/>
-	<s:BitmapImage source="@Embed('/assets/imgs/bible/icon/select.png')" width="100%" height="100%" smooth="true"/>
+	<s:BitmapImage source="@Embed('/assets/imgs/bible/icon/exercise_right.png')" width="100%" height="100%" smooth="true"/>
 </s:Group>

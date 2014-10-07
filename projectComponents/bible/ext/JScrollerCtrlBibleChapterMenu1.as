@@ -6,6 +6,7 @@ package projectComponents.bible.ext
 	import flash.utils.setInterval;
 	
 	import mx.core.UIComponent;
+	import mx.utils.Platform;
 	
 	import spark.components.HGroup;
 	
@@ -13,14 +14,15 @@ package projectComponents.bible.ext
 	import JsC.events.JEvent;
 	
 	import JsF.components.scroller.act.JScrollerActBase;
+	import JsF.components.scroller.act.JScrollerActDropScroller_desktop;
 	
-	import projectClass.vo.o.BibleOB;
 	import projectClass.vo.v.BibleVA;
 	
 	import projectComponents.bible.ctrl.DataBibleController;
 	import projectComponents.bible.view.Views_BookLable;
 	import projectComponents.bible.viewers.item.ChapterMenu_item_Number;
 	import projectComponents.bible.viewers.symbol.VolumeCurrent;
+	import projectComponents.bible.vo.BibleOB;
 	
 	
 	[Event(name="SELECT", type="JsC.events.JEvent")] //extra
@@ -49,6 +51,8 @@ package projectComponents.bible.ext
 		private var bCurrentButtonAction:Boolean
 		
 		private var bClick:Boolean
+		private var jscrollerDesktop:JScrollerActDropScroller_desktop
+		
 		
 		public function JScrollerCtrlBibleChapterMenu1(_ctrl:JScrollerActBase,_data:DataBibleController)
 		{
@@ -56,7 +60,7 @@ package projectComponents.bible.ext
 			cTotal = 60;
 			cLength = cTotal /2
 			gr = scrollerCtrl._getContentH()
-			
+			jscrollerDesktop = new JScrollerActDropScroller_desktop(scroller,gr)
 		}
 		
 		
@@ -67,9 +71,10 @@ package projectComponents.bible.ext
 				_vo.kind = BibleVA.kind_volume
 				sendData(_vo)
 			})
-			
-			scrollerCtrl.addEventListener(JEvent.ONEND,function():void{next()})
-			scrollerCtrl.addEventListener(JEvent.ONSTART,function():void{prev()})
+				
+			scrollerCtrl.addEventListener(JEvent.ONEND,function():void{jscrollerDesktop.stop();next()})
+			scrollerCtrl.addEventListener(JEvent.ONSTART,function():void{jscrollerDesktop.stop();prev()})
+				
 			scroller.viewport.addEventListener(MouseEvent.MOUSE_MOVE,function(event:MouseEvent):void
 			{
 				if (event.buttonDown)
@@ -79,17 +84,23 @@ package projectComponents.bible.ext
 					onDisplayCurrentButtonFunction(nDelay)
 				}
 			})
+				
 			scroller.viewport.addEventListener(MouseEvent.MOUSE_DOWN,function(event:MouseEvent):void
 			{
 				clearInterval(nDisplayCurrentButtonID)
 			})
+				
 			CountTime.display("menu list initCtrl")
 		}
 		
 		
 		private function initValue():void
 		{
-			scrollerCtrl.$slider = 5;
+			if (!Platform.isDesktop) 
+			{
+				scrollerCtrl.$slider = 5;
+			}
+			
 			nMenu = cTotal
 			var vData:Vector.<BibleOB> = sql.getVoumes()
 			vMenu = new Vector.<BibleOB>

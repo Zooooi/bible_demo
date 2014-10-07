@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" xmlns:filters="projectSkin.filters.*" xmlns:o="projectClass.vo.o.*" xmlns:style="projectComponents.bible.viewers.style.*" xmlns:vo="projectComponents.bible.vo.*" xmlns:ext2="JsF.components.scroller.ext.*"
+		 horizontalCenter="0" verticalCenter="0"  top="0" bottom="0" left="0" right="0"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import spark.components.Group;
+			
+			import JsC.events.JEvent;
+			
+			import JsF.components.scroller.act.JScrollerActDropScroller_desktop;
+			
+			
+			protected function onDegree(event:MouseEvent):void
+			{
+				var _event:JEvent = new JEvent(JEvent.CHANGED)
+				_event.i = _exercise.degree + 1
+				dispatchEvent(_event)
+			}
+			
+			
+			public function update():void
+			{
+				if (btnNext.parent!=null) grBtn.removeElement(btnNext)
+				if (_exercise.degree != _exercise.degreeMax && _score.nRight >_score.nWrong)
+				{
+					grBtn.addElement(btnNext)
+				}
+				_scroller.viewport.verticalScrollPosition = 0
+				scoreFadeIn.play()
+			}
+		
+		]]>
+	</fx:Script>
+
+	<s:preinitialize>
+		<![CDATA[
+			new JScrollerActDropScroller_desktop(_scroller,grV)
+		]]>
+	</s:preinitialize>
+	<fx:Metadata>
+		[Event(name="CHANGED", type="JsC.events.JEvent")]
+		[Event(name="RESTART", type="JsC.events.JEvent")]
+	</fx:Metadata>
+	<fx:Declarations>
+		<vo:BibleScore id="_score"/>
+		<vo:ExerciseVO id="_exercise"/>
+		<s:Fade id="scoreFadeIn" alphaFrom="0" alphaTo="1" duration="1000" target="{this}"/>
+		<filters:ProjectFilterGlow_Text id="glow" color="#ffffff" alpha="1" blurX="5" blurY="5" strength="5" />
+		<s:HGroup id="btnNext" verticalAlign="middle" gap="5">
+			<s:Image source="@Embed('/assets/imgs/bible/icon/exercise_arrow1.svg')" width="30" height="30" smooth="true" />
+			<s:Image source="@Embed('/assets/imgs/bible/icon/exercise_arrow2.svg')" width="30" height="30" smooth="true" />
+			<s:Button skinClass="projectSkin.skin.HSlider_Button_ExerciseHSliderThumb" width="45" height="45" label="{String(_exercise.degree+1)}" click="Group(parent).removeElement(this);onDegree(event)"/>
+		</s:HGroup>
+	</fx:Declarations>
+	<style:RectButtonMenuNumber  horizontalCenter="0" />
+	
+	<s:Image source="@Embed('/assets/imgs/bible/images/exercise_goal.png')" bottom="0" width="90%" height="90%" smooth="true" alpha="0.6" horizontalCenter="0"/>
+	
+	<ext2:JScroller id="_scroller" left="0" right="0" top="0" bottom="0" horizontalScrollPolicy="off" skinClass="JsF.components.scroller.skin.JScrollerHide_VScrollbarSkin">
+		<s:VGroup id="grV" width="100%" horizontalAlign="center"  verticalCenter="0" gap="15" filters="{[glow]}" paddingTop="10" paddingBottom="10">
+			<s:HGroup horizontalAlign="center"  verticalAlign="middle"  gap="20">
+				<s:HGroup gap="5" verticalAlign="middle">
+					<s:Image source="@Embed('/assets/imgs/bible/icon/exercise_timeout.png')" width="30" height="30" smooth="true" />
+					<s:Label styleName="exercise_score1" text="{_score.sTime}" />
+				</s:HGroup>
+				
+				<s:HGroup gap="5" verticalAlign="middle">
+					<s:Image source="@Embed('/assets/imgs/bible/icon/exercise_right.png')" width="30" height="30" smooth="true" />
+					<s:Label styleName="exercise_score1" text="{String(_score.nRight)}" />
+				</s:HGroup>
+				
+				<s:HGroup gap="5" verticalAlign="middle">
+					<s:Image source="@Embed('/assets/imgs/bible/icon/exercise_wrong.png')" width="30" height="30" smooth="true" />
+					<s:Label styleName="exercise_score1" text="{String(_score.nWrong)}" />
+				</s:HGroup>
+			</s:HGroup>
+			
+			
+			<s:HGroup horizontalAlign="center" verticalAlign="middle"  gap="5">
+				<s:Image source="@Embed('/assets/imgs/bible/icon/exercise_right.png')" width="30" height="30" smooth="true" />
+				<s:Label styleName="exercise_score1" text="{(_score.nRight)}" />
+				<s:Label styleName="exercise_score1" text="x" />
+				<s:Button skinClass="projectSkin.skin.HSlider_Button_ExerciseHSliderThumb" width="40" height="40" label="{String(_exercise.degree)}" mouseEnabled="false"/>
+				<s:Label styleName="exercise_score1" text="({(_exercise.score)})" />
+				<s:Label styleName="exercise_score1" text="=" />
+				<s:Label styleName="exercise_score2" text="{_score.score_right}" />
+			</s:HGroup>
+			
+			
+			<s:HGroup horizontalAlign="center" verticalAlign="middle" gap="3">
+				<s:Label styleName="exercise_score2" text="+" />
+				<s:Label styleName="exercise_score1" text="(" />
+				<s:Button skinClass="projectSkin.skin.Radio_Exercise_Compare" label="{String(_exercise.compare)}" width="40" height="40" mouseEnabled="false" styleName="exercise_slider"/>
+				<s:Label styleName="exercise_score1" text="+" />
+				<s:Button skinClass="projectSkin.skin.Radio_Exercise_Tips" label="{String(_exercise.tips)}" width="40" height="40" mouseEnabled="false" styleName="exercise_slider"/>
+				<s:Label styleName="exercise_score1" text="+" />
+				<s:Button skinClass="projectSkin.skin.Button_Exercise_Fast" label="{String(_exercise.fast)}" width="40" height="40" mouseEnabled="false" styleName="exercise_slider"/>
+				<s:Label styleName="exercise_score1" text=")x" />
+				<s:Label styleName="exercise_score1" text="{String(_exercise.gif)}" />
+				<s:Label styleName="exercise_score1" text="=" />
+				<s:Label styleName="exercise_score2" text="{_score.score_gif}" />
+			</s:HGroup>
+			
+			
+			<s:HGroup horizontalAlign="center" verticalAlign="middle"  gap="3">
+				<s:Label styleName="exercise_score2" text="=" />
+				<s:Image source="@Embed('/assets/imgs/bible/icon/exercise_goal.png')" width="64" height="64" smooth="true" />
+				<s:Label styleName="exercise_score_total" text="{_score.score_right+_score.score_gif}" />
+				<s:Label styleName="exercise_score1" text="/" />
+				<s:Label styleName="exercise_score1" text="{_score.score_max}" />
+				<s:Label styleName="exercise_score1" text="=" />
+				<s:Label styleName="exercise_score_percent" text="{_score.score_percent}" />
+				<s:Label styleName="exercise_score1" text="%" />
+			</s:HGroup>
+			
+			<s:HGroup id="grBtn" horizontalAlign="center" verticalAlign="middle" gap="10">
+				<s:Button skinClass="projectSkin.skin.HSlider_Button_ExerciseHSliderThumb" width="40" height="40" click="Group(parent).removeElement(this);dispatchEvent(new JEvent(JEvent.RESTART))" label="{String(_exercise.degree)}"/>
+			</s:HGroup>
+			
+		</s:VGroup>
+	</ext2:JScroller>
+	
+	
+</s:Group>

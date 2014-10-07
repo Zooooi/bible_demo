@@ -17,6 +17,7 @@
 		<![CDATA[
 			import flash.utils.setTimeout;
 			
+			import spark.components.supportClasses.ListBase;
 			import spark.events.IndexChangeEvent;
 			
 			import JsC.events.JEvent;
@@ -40,9 +41,11 @@
 				send(event,3)
 			}
 			
-			private function send(event:IndexChangeEvent,_kind:uint):void
+			protected function send(event:IndexChangeEvent,_kind:uint):void
 			{
-				if (SpinnerList(event.currentTarget).selectedItem!=null)
+				var _list:ListBase = ListBase(event.currentTarget)
+				
+				if (_list.selectedItem!=null)
 				{
 					addEventListener(JEvent.READY,function():void{btn_go.enabled = true})
 					btn_go.enabled = false
@@ -51,11 +54,11 @@
 					switch(_kind)
 					{
 						case 3:
-							_event.id = SpinnerList(event.currentTarget).selectedItem
+							_event.id = _list.selectedItem
 							break;
 						default:
-							_event.id = SpinnerList(event.currentTarget).selectedItem.id
-							_event.selectIndex = SpinnerList(event.currentTarget).selectedIndex
+							_event.id = _list.selectedItem.id
+							_event.selectIndex = _list.selectedIndex
 							break;
 					}
 					
@@ -73,6 +76,7 @@
 					setTimeout(function():void{dispatchEvent(_event)},50)
 				}
 			}
+		
 			
 			protected function remove():void
 			{
@@ -88,6 +92,7 @@
 	</fx:Declarations>
 	
 	<fx:Declarations>
+		<s:Button id="btn_go"/>
 		<s:Power id="easer1"/>
 		<s:Power id="easer2"/>
 		<s:Fade id="effect_fade" duration="2000" alphaFrom="{0}" alphaTo="1" target="{btn_go}" />
@@ -104,33 +109,17 @@
 		
 		<s:Sequence id="mainEffect" duration="1000">
 			<s:Parallel>
-				<s:Fade duration="400" alphaFrom="0" alphaTo="1" target="{content}" />
+				<s:Fade duration="400" alphaFrom="0" alphaTo="1" target="" />
 			</s:Parallel>
 		</s:Sequence>
-		
 	</fx:Declarations>
 	
-	<fx:Style source="projectSkin/css/bible.css"/>
+	
 	<s:initialize>
 		<![CDATA[
-			buttonEffect.play()
-			//mainEffect.play()
+		buttonEffect.play()
 		]]>
 	</s:initialize>
 	
-	<s:Group horizontalCenter="0" verticalCenter="0" width="100%" height="100%" click="remove()">
-		<style:RectButtonMenuNumber width="100%" height="100%" alpha="0.05"/><!--width="{content.width+20}" height="{content.height+40}"-->
-	</s:Group>
 	
-	
-	<s:VGroup id="content" verticalCenter="0" left="15" right="15" horizontalCenter="0" width="100%" horizontalAlign="center" gap="15">
-		<s:SpinnerListContainer width="100%"  maxHeight="300" maxWidth="500" styleName="selectChapterPanel">
-			<s:SpinnerList id="list1" height="100%" width="35%" labelField="name" wrapElements="false" dataProvider="{$list1}" change="spinnerlist1_changeHandler(event)" />
-			<s:SpinnerList id="list2" height="100%" width="50%" labelField="name" selectedIndex="@{$volumeIndex}" wrapElements="false" dataProvider="{$list2}" change="spinnerlist2_changeHandler(event)"/>
-			<s:SpinnerList id="list3" height="100%" width="15%" labelField="name" selectedIndex="@{$chapterIndex}" wrapElements="false" dataProvider="{$list3}" change="spinnerlist3_changeHandler(event)"/>
-		</s:SpinnerListContainer>
-		<s:HGroup height="100" width="100%" horizontalAlign="center" >
-				<s:Button id="btn_go"  skinClass="projectSkin.skin.Button_SelectChapterPanel" width="50" height="50" click="dispatchEvent(new JEvent(JEvent.SEND));remove()"/>	
-		</s:HGroup>
-	</s:VGroup>
 </s:Group>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ext:JcScrollerV xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" xmlns:ext="JsF.components.scroller.ext.*">
+	<fx:Script>
+		<![CDATA[
+			
+		]]>
+	</fx:Script>
+	
+	<ext:states>
+		<s:State name="mobile"/>	
+		<s:State name="desktop"/>
+	</ext:states>
+
+	<ext:JScroller id="_scroller" styleName="scroller" width="100%" height="100%" horizontalScrollPolicy="off" skinClass.desktop="JsF.components.scroller.skin.JScrollerHide_VScrollbarSkin">
+		<s:VGroup id="_gr" styleName="group" width="100%" height="100%" />
+	</ext:JScroller>
+	<s:BusyIndicator id="_dragWaiting" horizontalCenter="0" visible="false" width="30" height="30"/>
+</ext:JcScrollerV>

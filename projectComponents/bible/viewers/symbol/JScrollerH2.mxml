@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<viewer:JcScrollerH xmlns:fx="http://ns.adobe.com/mxml/2009" 
-					   xmlns:s="library://ns.adobe.com/flex/spark" xmlns:components="JsF.components.*" xmlns:viewer="JsF.components.scroller.viewer.*">
+<ext:JcScrollerH xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" xmlns:components="JsF.components.*" xmlns:ext="JsF.components.scroller.ext.*">
 	
 	<fx:Style source="JsF/configs/JScroller.css"/>
+
 	
 	<fx:Declarations>
 		<s:Animate id="$anim" duration="10">
@@ -11,8 +12,8 @@
 			</s:motionPaths>
 		</s:Animate>
 	</fx:Declarations>
-	<viewer:JScroller id="_scroller" styleName="scroller" width="100%" height="100%"  skinClass="JsF.components.scroller.skin.JScrollerHide_HScrollbarSkin">
+	<ext:JScroller id="_scroller" styleName="scroller" width="100%" height="100%"  skinClass="JsF.components.scroller.skin.JScrollerHide_HScrollbarSkin" verticalScrollPolicy="off">
 		<s:HGroup id="_gr" styleName="group" width="100%" height="100%" gap="5" verticalAlign="middle"/>
-	</viewer:JScroller>
+	</ext:JScroller>
 	<s:BusyIndicator id="_dragWaiting" verticalCenter="0" visible="false" width="20" height="20"/>
-</viewer:JcScrollerH>
+</ext:JcScrollerH>

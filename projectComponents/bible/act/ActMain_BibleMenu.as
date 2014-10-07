@@ -6,13 +6,13 @@ package projectComponents.bible.act
 	
 	import JsF.components.scroller.act.JScrollerActH;
 	
-	import projectClass.vo.o.BibleOB;
 	import projectClass.vo.v.BibleVA;
 	
+	import projectComponents.bible.act.panel.ActPanel_BibleSelectVolume;
 	import projectComponents.bible.ext.JScrollerCtrlBibleChapterMenu2PageFlip;
 	import projectComponents.bible.viewers.panel.BibleReader;
 	import projectComponents.bible.viewers.panel.BibleSelectVolume;
-	import projectComponents.bible.act.panel.ActPanel_BibleSelectVolume;
+	import projectComponents.bible.vo.BibleOB;
 
 	
 	public class ActMain_BibleMenu extends ActMain_Bible_Base
@@ -90,21 +90,20 @@ package projectComponents.bible.act
 				case JEvent.SELECT:
 					
 					var _vo:BibleOB = BibleOB(event._data)
-					
 					switch(_vo.kind)
 					{
 						case BibleVA.kind_volume:
 							var _ctrl:ActPanel_BibleSelectVolume = new ActPanel_BibleSelectVolume(new BibleSelectVolume)
-							_ctrl.addEventListener(JEvent.SEND,function(event:JEvent):void{
-								actChapter.selectVolume(BibleOB(event._data))
-							})
-							_ctrl._addEvent(event)
+							_ctrl.addEventListener(JEvent.SEND,function(event:JEvent):void{ actChapter.selectVolume(BibleOB(event._data)) })
+							_ctrl._addVO(_vo)
 							_ctrl.init()
 							__actViews.popUp(_ctrl._getView())
-							
 							break;
 						
 						case BibleVA.kind_chapter:
+							/**
+							 * 新一章
+							 * */
 							__sqlBible.queryVO(_vo)
 							__sqlBible.addEventListener(JEvent.COMPLETE,function():void{
 								__sqlBible.removeEventListener(JEvent.COMPLETE,arguments.callee);
